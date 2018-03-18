@@ -18,6 +18,7 @@ Please take into consideration that we will assume the url of the "Fabric-CA" to
 ### Refer to enrollAdmin.js script sourced from official samples
 <br>
 The procedure of the script is very specific:
+<br>
 1. Allocate a keystore path which is assumed to be on the local file system, followed by setting up the crypto store & crypto suite.
 <br>
 2. Setup a connection with Fabric CA with no root CA verification in TLS options in order to establish a first time connection with the CA.
@@ -37,6 +38,7 @@ As an admin of an organization; the admin would like to start registering users 
 ### Refer to registerUser.js script sourced from official samples
 <br>
 The procedure of the script is very specific:
+<br>
 1. Capture the identity of the admin in order to leverage it to enroll new user.
 <br>
 2. Enroll the user with an enrollment ID & proper affiliation.
