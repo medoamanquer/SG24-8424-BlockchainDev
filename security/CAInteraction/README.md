@@ -5,7 +5,7 @@ The plan is to provide an over view of how to leverage the tools to compose the 
 <br>
 
 # Section 1: Enrolling a User (Admin User) w/ Fabric Client with Fabric CA Client
-The first user we probably would like to enroll is the "Admin" user that will have direct interaction with the Certificate Authority component of the network that issues the credentials (enrollment certificates), that will be usually refferred to as "ecerts".
+The first user we probably would like to enroll is the "Admin" user that will have direct interaction with the Certificate Authority component of the network that issues the credentials (enrollment certificates), that will be usually refferred to as "ecerts". The process depends mainly on whats known as the key store (hfc-key-store); this folder is the store that stores 3 types of files: "Context file", "Public Key", and "Private Key" for each user. 
 <br>
 ## N.B.
 Please take into consideration that we will be using the host file system as a store to our credentials in the development environment, and our focus is mainly on how to represent the interaction of the tools.
