@@ -52,7 +52,25 @@ The procedure of the script is very specific:
 
 ## Summary
 So far we have user credentials whether admin/member; in the next section we will explore how to create Composer Business Network Card out of the credentials.
+<br>
 
-# Section 3: Enrolling a USER (Member User) w/ Composer Client
+# Section 3: Create composer card with a local store on file system
+<br>
+Many solutions are available via the "Composer Module" which is a part of the Hyperledger Project, and in this section the main focus is leveraging the capabilities of the fabric sdk with composer sdk in order to create a composer card for the previously enrolled admin.
+<br>
+## N.B.
+<br>
+The connection profile for composer cards is assumed to be for the common setup for development process according to Hyperledger Composer samples.
+<br>
 
-## Under Current Development.
+### Refere to createComposerCards.js script
+<br>
+The procedure of the script is very specific:
+<br>
+1. Setup proper paths & modules.
+<br>
+2. Fetch the enrolled "admin" from the local 'hfc-key-store'.
+<br>
+3. Create a composer card with these credentials.
+<br>
+4. Store the composer in the local defined store.
