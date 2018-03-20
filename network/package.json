@@ -1,0 +1,14 @@
+{
+  "name": "vehicle-manufacture-network",
+  "version": "1.0.0",
+  "description": "> This network tracks the manufacture of vehicles from an initial order request through to their completion by the manufacturer. A regulator is able to provide oversight throughout this whole process.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
