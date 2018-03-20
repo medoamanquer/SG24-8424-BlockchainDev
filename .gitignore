@@ -5,5 +5,7 @@ environment/hlfv11/composer-logs
 test/npm_modules
 test/composer-logs
 security/CAInteraction/composer-logs
-security/CAInteraction/npm_modules
+security/CAInteraction/node_modules
 security/CAInteraction/hfc-key-store
+security/CAInteraction/composer-card-store
+
