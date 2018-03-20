@@ -8,6 +8,9 @@
  * Enroll the admin user
  */
 
+// We need to revisit to suite the updated version of fabric & composer
+// Expected to resolve whilist integration
+
 var FabricClient = require('fabric-client');
 var FabricCaClient = require('fabric-ca-client');
 

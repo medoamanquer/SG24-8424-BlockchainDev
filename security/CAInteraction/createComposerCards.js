@@ -1,5 +1,8 @@
 'use strict';
 
+// We need to revisit to suite the updated version of fabric & composer
+// Expected to resolve whilist integration
+
 const FabricClient = require('fabric-client');
 const FabricCAClient = require('fabric-ca-client');
 

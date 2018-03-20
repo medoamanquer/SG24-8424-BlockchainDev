@@ -1,6 +1,8 @@
 # Hyperledger Fabric Security, and User Management
 This module explains how to interact with the security concepts in Hyperledger Fabric in general. The main focus is the joint interaction of "fabric-client" with "fabric-ca-client" & "composer-client" which are all Node.JS modules.
 <br>
+## We need to revisit the guide here due to version update
+<br>
 The plan is to provide an over view of how to leverage the tools to compose the credentials of a user; and explain what set of the credentials are; and how to leverage these credentials either to interact with: Fabric (as protocol) / composer-module (Runtime on top of Fabric).
 <br>
 
