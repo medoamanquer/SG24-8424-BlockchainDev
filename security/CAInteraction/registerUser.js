@@ -20,7 +20,7 @@ var os = require('os');
 
 //
 var fabricClient = new FabricClient();
-var fabricCaClient = null;
+var fabricCAClient = null;
 var adminUser = null;
 var memberUser = null;
 var storePath = path.join(__dirname, 'hfc-key-store');
@@ -42,7 +42,7 @@ FabricClient.newDefaultKeyValueStore({ path: storePath
     	verify: false
     };
     // be sure to change the http to https when the CA is running TLS enabled
-    fabricCaClient = new FabricCAClient('http://localhost:7054', null , '', cryptoSuite);
+    fabricCAClient = new FabricCAClient('http://localhost:7054', null , '', cryptoSuite);
 
     // first check to see if the admin is already enrolled
     return fabricClient.getUserContext('admin', true);
@@ -56,15 +56,15 @@ FabricClient.newDefaultKeyValueStore({ path: storePath
 
     // at this point we should have the admin user
     // first need to register the user with the CA server
-    return FabricCAClient.register({enrollmentID: 'user1', affiliation: 'org1.department1'}, adminUser);
+    return fabricCAClient.register({enrollmentID: 'user1', affiliation: 'org1.department1'}, adminUser);
 }).then((secret) => {
     // next we need to enroll the user with CA server
     console.log('Successfully registered user1 - secret:'+ secret);
 
-    return FabricCAClient.enroll({enrollmentID: 'user1', enrollmentSecret: secret});
+    return fabricCAClient.enroll({enrollmentID: 'user1', enrollmentSecret: secret});
 }).then((enrollment) => {
   console.log('Successfully enrolled member user "user1" ');
-  return fabric_client.createUser(
+  return fabricClient.createUser(
      {username: 'user1',
      mspid: 'Org1MSP',
      cryptoContent: { privateKeyPEM: enrollment.key.toBytes(), signedCertPEM: enrollment.certificate }

@@ -31,10 +31,10 @@ FabricClient.newDefaultKeyValueStore({ path: storePath
 }).then((stateStore) => {
     // assign the store to the fabric client
     fabricClient.setStateStore(stateStore);
-    var cryptoSuite = Fabric_Client.newCryptoSuite();
+    var cryptoSuite = FabricClient.newCryptoSuite();
     // use the same location for Ce state store (where the users' certificate are kept)
     // and the crypto store (where the users' keys are kept)
-    var cryptoStore = Fabric_Client.newCryptoKeyStore({path: storePath});
+    var cryptoStore = FabricClient.newCryptoKeyStore({path: storePath});
     cryptoSuite.setCryptoKeyStore(cryptoStore);
     fabricClient.setCryptoSuite(cryptoSuite);
     var	tlsOptions = {
@@ -42,10 +42,10 @@ FabricClient.newDefaultKeyValueStore({ path: storePath
     	verify: false
     };
     // be sure to change the http to https when the CA is running TLS enabled
-    fabricCaClient = new FabricCaClient('http://localhost:7054', tlsOptions , 'ca.example.com', cryptoSuite);
+    fabricCaClient = new FabricCaClient('http://localhost:7054', tlsOptions , 'ca.org1.example.com', cryptoSuite);
 
     // first check to see if the admin is already enrolled
-    return fabric_client.getUserContext('admin', true);
+    return fabricClient.getUserContext('admin', true);
 }).then((userFromStore) => {
     if (userFromStore && userFromStore.isEnrolled()) {
         console.log('Successfully loaded admin from persistence');
@@ -65,7 +65,7 @@ FabricClient.newDefaultKeyValueStore({ path: storePath
               });
         }).then((user) => {
           adminUser = user;
-          return fabric_client.setUserContext(adminUser);
+          return fabricClient.setUserContext(adminUser);
         }).catch((err) => {
           console.error('Failed to enroll and persist admin. Error: ' + err.stack ? err.stack : err);
           throw new Error('Failed to enroll admin');

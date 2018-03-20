@@ -6,3 +6,4 @@ test/npm_modules
 test/composer-logs
 security/CAInteraction/composer-logs
 security/CAInteraction/npm_modules
+security/CAInteraction/hfc-key-store
