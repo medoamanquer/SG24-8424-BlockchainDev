@@ -142,3 +142,5 @@ Make sure you have the value again
 Now you can pretty much anything as you want with this sample.
 
 # 
+
+### Thank you for reading this small guide. Any aditions are easily reached out; and could be made within the integration phase.
