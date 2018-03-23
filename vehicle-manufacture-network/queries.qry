@@ -1,0 +1,6 @@
+query selectPlacedOrders {
+  description: "Select all placed orders"
+  statement:
+      SELECT org.acme.vehicle_network.Order
+          WHERE (orderStatus == "PLACED")
+}

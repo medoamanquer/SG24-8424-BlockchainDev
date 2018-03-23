@@ -10,6 +10,7 @@ concept VehicleDetails {
   --> Manufacturer make
   o String modelType
   o String colour
+  o Integer yearOfManufacture range = [2018, ]
 }
 
 abstract participant Company identified by companyId {
