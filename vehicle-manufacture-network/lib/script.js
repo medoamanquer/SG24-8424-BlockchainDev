@@ -12,6 +12,8 @@
  * limitations under the License.
  */
 
+/* global getFactory getAssetRegistry getParticipantRegistry emit */
+
 // MANUFACTURER FUNCTIONS
 /**
  * Place an order for a vehicle

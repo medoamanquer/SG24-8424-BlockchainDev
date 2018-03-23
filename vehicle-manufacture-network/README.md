@@ -106,7 +106,7 @@ Finally complete the ordering process by marking the order as `DELIVERED` throug
 
 This `UpdateOrderStatus` transaction updates the orderStatus of the `Order` with orderId 1234 in the asset registry and emits an `UpdateOrderStatusEvent` event.
 
-This Business Network definition has been used to create demo applications that simulate the scenario outlined above. You can find more detail on these at https://github.com/hyperledger/composer-sample-applications/tree/master/packages/vehicle-lifecycle
+This Business Network definition has been used to create demo applications that simulate the scenario outlined above. You can find more detail on these at https://github.com/hyperledger/composer-sample-applications/tree/master/packages/vehicle-manufacture
 
 ## Permissions in this business network for modelled participants
 Within this network permissions are outlines for the participants outlining what they can and can't do. The rules in the permissions.acl file explicitly ALLOW participants to perform actions. Actions not written for a participant in that file are blocked.
