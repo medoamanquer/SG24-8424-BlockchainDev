@@ -101,7 +101,3 @@ asset Vehicle identified by vin {
   o VehicleStatus vehicleStatus
   --> Person owner optional
 }
-
-// DEMO SPECIFIC DEFINITIONS
-transaction SetupDemo {
-}
