@@ -41,6 +41,18 @@ copy the contents of the "enccc_example" into this folder
     cp enccc_example/* encrypted_car_manufacturing
     cd encrypted_car_manufacturing
 
+Embed the new dependency of the imports in code:
+
+	import (
+	"fmt"
+	"strings" // New dependency
+	"github.com/hyperledger/fabric/bccsp"
+	"github.com/hyperledger/fabric/bccsp/factory"
+	"github.com/hyperledger/fabric/core/chaincode/shim"
+	"github.com/hyperledger/fabric/core/chaincode/shim/ext/entities"
+	pb "github.com/hyperledger/fabric/protos/peer"
+	)
+
 Copy the following snippet within the code:
 <br>
     
