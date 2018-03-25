@@ -27,7 +27,8 @@ const namespace = 'org.acme.vehicle_network';
 const orderId = '1000-1000-1000-1000';
 const vin = '1a2b3c4d5e6f7g8h9';
 
-describe('Manufacture network', () => {
+describe('Manufacture network', () => 
+{
     const cardStore = require('composer-common').NetworkCardStoreManager.getCardStore( { type: 'composer-wallet-inmemory' } );
     let adminConnection;
     let businessNetworkConnection;

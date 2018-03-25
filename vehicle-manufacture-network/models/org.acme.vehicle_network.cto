@@ -44,10 +44,10 @@ concept Options {
 
 asset Order identified by orderId {
   o String orderId
-  o VehicleDetails vehicleDetails
-  o OrderStatus orderStatus
+  o VehicleDetails vehicleDetails 
+  o OrderStatus orderStatus 
   o Options options
-  --> Person orderer
+  --> Person orderer 
 }
 
 transaction PlaceOrder {
