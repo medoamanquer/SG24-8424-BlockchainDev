@@ -1,0 +1,1 @@
+### Please, consider we are storing the vehicle as JSON string; this is subjective to change if needed, thank you.
