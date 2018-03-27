@@ -32,10 +32,10 @@ describe('Starting tests for Vehicle-Manufacture-App', function() {
       expect(assetName.getText()).toBe('Order');
     });
 
-    it('Order table should have 6 columns',() => {
+    it('Order table should have 5 columns',() => {
       page.navigateTo('/Order');
       element.all(by.css('.thead-cols th')).then(function(arr) {
-        expect(arr.length).toEqual(6); // Addition of 1 for 'Action' column
+        expect(arr.length).toEqual(5); // Addition of 1 for 'Action' column
       });
     });
 
@@ -46,10 +46,10 @@ describe('Starting tests for Vehicle-Manufacture-App', function() {
       expect(assetName.getText()).toBe('Vehicle');
     });
 
-    it('Vehicle table should have 5 columns',() => {
+    it('Vehicle table should have 9 columns',() => {
       page.navigateTo('/Vehicle');
       element.all(by.css('.thead-cols th')).then(function(arr) {
-        expect(arr.length).toEqual(5); // Addition of 1 for 'Action' column
+        expect(arr.length).toEqual(9); // Addition of 1 for 'Action' column
       });
     });
 

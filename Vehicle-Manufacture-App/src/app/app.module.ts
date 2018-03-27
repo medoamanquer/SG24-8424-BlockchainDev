@@ -7,6 +7,8 @@ import { Configuration }     from './configuration';
 import { DataService }     from './data.service';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import {placeOrder } from './placeOrder/placeOrder.component'
+
 // import { TransactionComponent } from './Transaction/Transaction.component'
 
 import { OrderComponent } from './Order/Order.component';
@@ -15,7 +17,9 @@ import { VehicleComponent } from './Vehicle/Vehicle.component';
 @NgModule({
   declarations: [
     AppComponent,
-		HomeComponent,
+    HomeComponent,
+    placeOrder,
+
     // TransactionComponent,
     OrderComponent,
 		

@@ -25,6 +25,15 @@ export class DataService<Type> {
           .catch(this.handleError);
     }
 
+    public addnewOrder( asset: Type): Observable<Type> {
+        console.log('Entered DataService add');
+        console.log('asset', asset);
+
+        return this.http.post(this.actionUrl + "org.acme.vehicle_network.PlaceOrder" , asset)
+          .map(this.extractData)
+          .catch(this.handleError);
+    }
+
     public getSingle(ns: string, id: string): Observable<Type> {
         console.log('GetSingle ' + ns);
 

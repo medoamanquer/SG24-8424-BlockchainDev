@@ -24,56 +24,9 @@
 
             
               <div class="form-group text-left">
-                <label for="vehicleDetails">vehicleDetails</label>
+                <label for="trim">trim</label>
                 
-                    <textarea formControlName="vehicleDetails" class="form-control" rows="3"></textarea>
-                
-              </div>
-            
-          
-
-            
-              <label for="vehicleStatus">vehicleStatus</label>
-              <div class="checkbox">
-                
-                  <label>
-                    <input
-                      
-                        formControlName="vehicleStatus"
-                      
-                      name="vehicleStatus"
-                      value="ACTIVE"
-                      type="radio"
-                      
-                    />
-                    ACTIVE
-                  </label>
-                
-                  <label>
-                    <input
-                      
-                        formControlName="vehicleStatus"
-                      
-                      name="vehicleStatus"
-                      value="OFF_THE_ROAD"
-                      type="radio"
-                      
-                    />
-                    OFF_THE_ROAD
-                  </label>
-                
-                  <label>
-                    <input
-                      
-                        formControlName="vehicleStatus"
-                      
-                      name="vehicleStatus"
-                      value="SCRAPPED"
-                      type="radio"
-                      
-                    />
-                    SCRAPPED
-                  </label>
+                  <input formControlName="trim" type="text" class="form-control">
                 
               </div>
             
@@ -81,9 +34,59 @@
 
             
               <div class="form-group text-left">
-                <label for="owner">owner</label>
+                <label for="interior">interior</label>
                 
-                    <textarea formControlName="owner" class="form-control" rows="3"></textarea>
+                  <input formControlName="interior" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="extras">extras</label>
+                
+                  <input formControlName="extras" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="make">make</label>
+                
+                    <textarea formControlName="make" class="form-control" rows="3"></textarea>
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="modelType">modelType</label>
+                
+                  <input formControlName="modelType" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="colour">colour</label>
+                
+                  <input formControlName="colour" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="yearOfManufacture">yearOfManufacture</label>
+                
+                  <input formControlName="yearOfManufacture" type="number" class="form-control">
                 
               </div>
             
@@ -125,80 +128,66 @@
             </div>
           
             <div class="form-group text-left">
-              <label for="vehicleDetails">vehicleDetails</label>
+              <label for="trim">trim</label>
+
+              
+                <input [ngModel]="trim"formControlName="trim" type="text" class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="interior">interior</label>
+
+              
+                <input [ngModel]="interior"formControlName="interior" type="text" class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="extras">extras</label>
+
+              
+                <input [ngModel]="extras"formControlName="extras" type="text" class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="make">make</label>
 
               
                 
-                  <textarea [ngModel]="vehicleDetails" formControlName="vehicleDetails" class="form-control" rows="3"></textarea>
+                  <textarea [ngModel]="make" formControlName="make" class="form-control" rows="3"></textarea>
                 
               
 
             </div>
           
             <div class="form-group text-left">
-              <label for="vehicleStatus">vehicleStatus</label>
+              <label for="modelType">modelType</label>
 
               
-                
-                  <div class="row">
-                    <div class="col-xs-12 checkbox">
-                    
-                      <label>
-                        <input
-                          
-                            formControlName="vehicleStatus"
-                            [ngModel]="vehicleStatus"
-                          
-                          name="vehicleStatus"
-                          value="ACTIVE"
-                          type="radio"
-                          
-                        />
-                        ACTIVE
-                      </label>
-                    
-                      <label>
-                        <input
-                          
-                            formControlName="vehicleStatus"
-                            [ngModel]="vehicleStatus"
-                          
-                          name="vehicleStatus"
-                          value="OFF_THE_ROAD"
-                          type="radio"
-                          
-                        />
-                        OFF_THE_ROAD
-                      </label>
-                    
-                      <label>
-                        <input
-                          
-                            formControlName="vehicleStatus"
-                            [ngModel]="vehicleStatus"
-                          
-                          name="vehicleStatus"
-                          value="SCRAPPED"
-                          type="radio"
-                          
-                        />
-                        SCRAPPED
-                      </label>
-                    
-                    </div>
-                  </div>
-                
+                <input [ngModel]="modelType"formControlName="modelType" type="text" class="form-control">
               
 
             </div>
           
             <div class="form-group text-left">
-              <label for="owner">owner</label>
+              <label for="colour">colour</label>
 
               
-                
-                  <textarea [ngModel]="owner" formControlName="owner" class="form-control" rows="3"></textarea>
-                
+                <input [ngModel]="colour"formControlName="colour" type="text" class="form-control">
+              
+
+            </div>
+          
+            <div class="form-group text-left">
+              <label for="yearOfManufacture">yearOfManufacture</label>
+
+              
+                <input [ngModel]="yearOfManufacture" formControlName="yearOfManufacture" type="number" class="form-control">
               
 
             </div>
@@ -276,11 +265,19 @@
             
                 <th class="info">vin</th>
             
-                <th class="info">vehicleDetails</th>
+                <th class="info">trim</th>
             
-                <th class="info">vehicleStatus</th>
+                <th class="info">interior</th>
             
-                <th class="info">owner</th>
+                <th class="info">extras</th>
+            
+                <th class="info">make</th>
+            
+                <th class="info">modelType</th>
+            
+                <th class="info">colour</th>
+            
+                <th class="info">yearOfManufacture</th>
             
               <th class="info-actions">Actions</th>
           </tr>
@@ -291,11 +288,19 @@
             
                 <td class="asset-properties">{{asset.vin}}</td>
             
-                <td class="asset-properties">{{asset.vehicleDetails}}</td>
+                <td class="asset-properties">{{asset.trim}}</td>
             
-                <td class="asset-properties">{{asset.vehicleStatus}}</td>
+                <td class="asset-properties">{{asset.interior}}</td>
             
-                <td class="asset-properties">{{asset.owner}}</td>
+                <td class="asset-properties">{{asset.extras}}</td>
+            
+                <td class="asset-properties">{{asset.make}}</td>
+            
+                <td class="asset-properties">{{asset.modelType}}</td>
+            
+                <td class="asset-properties">{{asset.colour}}</td>
+            
+                <td class="asset-properties">{{asset.yearOfManufacture}}</td>
             
             <td>
               <button (click)="getForm(asset.vin);" type="button" class="btn btn-update" data-toggle="modal" data-target="#updateAssetModal">

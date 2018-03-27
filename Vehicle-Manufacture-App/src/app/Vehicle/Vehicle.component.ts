@@ -23,15 +23,31 @@ export class VehicleComponent implements OnInit {
         
   
       
-          vehicleDetails = new FormControl("", Validators.required);
+          trim = new FormControl("", Validators.required);
         
   
       
-          vehicleStatus = new FormControl("", Validators.required);
+          interior = new FormControl("", Validators.required);
         
   
       
-          owner = new FormControl("", Validators.required);
+          extras = new FormControl("", Validators.required);
+        
+  
+      
+          make = new FormControl("", Validators.required);
+        
+  
+      
+          modelType = new FormControl("", Validators.required);
+        
+  
+      
+          colour = new FormControl("", Validators.required);
+        
+  
+      
+          yearOfManufacture = new FormControl("", Validators.required);
         
   
 
@@ -44,15 +60,31 @@ export class VehicleComponent implements OnInit {
         
     
         
-          vehicleDetails:this.vehicleDetails,
+          trim:this.trim,
         
     
         
-          vehicleStatus:this.vehicleStatus,
+          interior:this.interior,
         
     
         
-          owner:this.owner
+          extras:this.extras,
+        
+    
+        
+          make:this.make,
+        
+    
+        
+          modelType:this.modelType,
+        
+    
+        
+          colour:this.colour,
+        
+    
+        
+          yearOfManufacture:this.yearOfManufacture
         
     
     });
@@ -120,15 +152,31 @@ export class VehicleComponent implements OnInit {
         
       
         
-          "vehicleDetails":this.vehicleDetails.value,
+          "trim":this.trim.value,
         
       
         
-          "vehicleStatus":this.vehicleStatus.value,
+          "interior":this.interior.value,
         
       
         
-          "owner":this.owner.value
+          "extras":this.extras.value,
+        
+      
+        
+          "make":this.make.value,
+        
+      
+        
+          "modelType":this.modelType.value,
+        
+      
+        
+          "colour":this.colour.value,
+        
+      
+        
+          "yearOfManufacture":this.yearOfManufacture.value
         
       
     };
@@ -140,15 +188,31 @@ export class VehicleComponent implements OnInit {
         
       
         
-          "vehicleDetails":null,
+          "trim":null,
         
       
         
-          "vehicleStatus":null,
+          "interior":null,
         
       
         
-          "owner":null
+          "extras":null,
+        
+      
+        
+          "make":null,
+        
+      
+        
+          "modelType":null,
+        
+      
+        
+          "colour":null,
+        
+      
+        
+          "yearOfManufacture":null
         
       
     });
@@ -164,15 +228,31 @@ export class VehicleComponent implements OnInit {
         
       
         
-          "vehicleDetails":null,
+          "trim":null,
         
       
         
-          "vehicleStatus":null,
+          "interior":null,
         
       
         
-          "owner":null 
+          "extras":null,
+        
+      
+        
+          "make":null,
+        
+      
+        
+          "modelType":null,
+        
+      
+        
+          "colour":null,
+        
+      
+        
+          "yearOfManufacture":null 
         
       
       });
@@ -198,19 +278,43 @@ export class VehicleComponent implements OnInit {
     
         
           
-            "vehicleDetails":this.vehicleDetails.value,
+            "trim":this.trim.value,
           
         
     
         
           
-            "vehicleStatus":this.vehicleStatus.value,
+            "interior":this.interior.value,
           
         
     
         
           
-            "owner":this.owner.value
+            "extras":this.extras.value,
+          
+        
+    
+        
+          
+            "make":this.make.value,
+          
+        
+    
+        
+          
+            "modelType":this.modelType.value,
+          
+        
+    
+        
+          
+            "colour":this.colour.value,
+          
+        
+    
+        
+          
+            "yearOfManufacture":this.yearOfManufacture.value
           
         
     
@@ -272,15 +376,31 @@ export class VehicleComponent implements OnInit {
           
         
           
-            "vehicleDetails":null,
+            "trim":null,
           
         
           
-            "vehicleStatus":null,
+            "interior":null,
           
         
           
-            "owner":null 
+            "extras":null,
+          
+        
+          
+            "make":null,
+          
+        
+          
+            "modelType":null,
+          
+        
+          
+            "colour":null,
+          
+        
+          
+            "yearOfManufacture":null 
           
         
       };
@@ -296,28 +416,60 @@ export class VehicleComponent implements OnInit {
           formObject.vin = null;
         }
       
-        if(result.vehicleDetails){
+        if(result.trim){
           
-            formObject.vehicleDetails = result.vehicleDetails;
+            formObject.trim = result.trim;
           
         }else{
-          formObject.vehicleDetails = null;
+          formObject.trim = null;
         }
       
-        if(result.vehicleStatus){
+        if(result.interior){
           
-            formObject.vehicleStatus = result.vehicleStatus;
+            formObject.interior = result.interior;
           
         }else{
-          formObject.vehicleStatus = null;
+          formObject.interior = null;
         }
       
-        if(result.owner){
+        if(result.extras){
           
-            formObject.owner = result.owner;
+            formObject.extras = result.extras;
           
         }else{
-          formObject.owner = null;
+          formObject.extras = null;
+        }
+      
+        if(result.make){
+          
+            formObject.make = result.make;
+          
+        }else{
+          formObject.make = null;
+        }
+      
+        if(result.modelType){
+          
+            formObject.modelType = result.modelType;
+          
+        }else{
+          formObject.modelType = null;
+        }
+      
+        if(result.colour){
+          
+            formObject.colour = result.colour;
+          
+        }else{
+          formObject.colour = null;
+        }
+      
+        if(result.yearOfManufacture){
+          
+            formObject.yearOfManufacture = result.yearOfManufacture;
+          
+        }else{
+          formObject.yearOfManufacture = null;
         }
       
 
@@ -346,15 +498,31 @@ export class VehicleComponent implements OnInit {
         
       
         
-          "vehicleDetails":null,
+          "trim":null,
         
       
         
-          "vehicleStatus":null,
+          "interior":null,
         
       
         
-          "owner":null 
+          "extras":null,
+        
+      
+        
+          "make":null,
+        
+      
+        
+          "modelType":null,
+        
+      
+        
+          "colour":null,
+        
+      
+        
+          "yearOfManufacture":null 
         
       
       });

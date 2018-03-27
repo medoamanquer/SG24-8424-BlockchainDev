@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 
 import { OrderComponent } from './Order/Order.component';
 import { VehicleComponent } from './Vehicle/Vehicle.component';
+import { placeOrder } from 'app/placeOrder/placeOrder.component';
 
 const routes: Routes = [
     // { path: 'transaction', component: TransactionComponent },
@@ -12,7 +13,9 @@ const routes: Routes = [
 		
 		{ path: 'Order', component: OrderComponent},
 		
-		{ path: 'Vehicle', component: VehicleComponent},
+    { path: 'Vehicle', component: VehicleComponent},
+    { path: 'placeOrder', component: placeOrder},
+
 		
 		{path: '**', redirectTo:''}
 

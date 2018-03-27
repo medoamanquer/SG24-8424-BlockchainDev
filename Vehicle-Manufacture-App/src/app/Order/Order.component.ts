@@ -23,19 +23,15 @@ export class OrderComponent implements OnInit {
         
   
       
-          vehicleDetails = new FormControl("", Validators.required);
-        
-  
-      
           orderStatus = new FormControl("", Validators.required);
         
   
       
-          options = new FormControl("", Validators.required);
+          vehicle = new FormControl("", Validators.required);
         
   
       
-          orderer = new FormControl("", Validators.required);
+          owner = new FormControl("", Validators.required);
         
   
 
@@ -48,19 +44,15 @@ export class OrderComponent implements OnInit {
         
     
         
-          vehicleDetails:this.vehicleDetails,
-        
-    
-        
           orderStatus:this.orderStatus,
         
     
         
-          options:this.options,
+          vehicle:this.vehicle,
         
     
         
-          orderer:this.orderer
+          owner:this.owner
         
     
     });
@@ -128,19 +120,15 @@ export class OrderComponent implements OnInit {
         
       
         
-          "vehicleDetails":this.vehicleDetails.value,
-        
-      
-        
           "orderStatus":this.orderStatus.value,
         
       
         
-          "options":this.options.value,
+          "vehicle":this.vehicle.value,
         
       
         
-          "orderer":this.orderer.value
+          "owner":this.owner.value
         
       
     };
@@ -152,19 +140,15 @@ export class OrderComponent implements OnInit {
         
       
         
-          "vehicleDetails":null,
-        
-      
-        
           "orderStatus":null,
         
       
         
-          "options":null,
+          "vehicle":null,
         
       
         
-          "orderer":null
+          "owner":null
         
       
     });
@@ -180,19 +164,15 @@ export class OrderComponent implements OnInit {
         
       
         
-          "vehicleDetails":null,
-        
-      
-        
           "orderStatus":null,
         
       
         
-          "options":null,
+          "vehicle":null,
         
       
         
-          "orderer":null 
+          "owner":null 
         
       
       });
@@ -218,25 +198,19 @@ export class OrderComponent implements OnInit {
     
         
           
-            "vehicleDetails":this.vehicleDetails.value,
-          
-        
-    
-        
-          
             "orderStatus":this.orderStatus.value,
           
         
     
         
           
-            "options":this.options.value,
+            "vehicle":this.vehicle.value,
           
         
     
         
           
-            "orderer":this.orderer.value
+            "owner":this.owner.value
           
         
     
@@ -298,19 +272,15 @@ export class OrderComponent implements OnInit {
           
         
           
-            "vehicleDetails":null,
-          
-        
-          
             "orderStatus":null,
           
         
           
-            "options":null,
+            "vehicle":null,
           
         
           
-            "orderer":null 
+            "owner":null 
           
         
       };
@@ -326,14 +296,6 @@ export class OrderComponent implements OnInit {
           formObject.orderId = null;
         }
       
-        if(result.vehicleDetails){
-          
-            formObject.vehicleDetails = result.vehicleDetails;
-          
-        }else{
-          formObject.vehicleDetails = null;
-        }
-      
         if(result.orderStatus){
           
             formObject.orderStatus = result.orderStatus;
@@ -342,20 +304,20 @@ export class OrderComponent implements OnInit {
           formObject.orderStatus = null;
         }
       
-        if(result.options){
+        if(result.vehicle){
           
-            formObject.options = result.options;
+            formObject.vehicle = result.vehicle;
           
         }else{
-          formObject.options = null;
+          formObject.vehicle = null;
         }
       
-        if(result.orderer){
+        if(result.owner){
           
-            formObject.orderer = result.orderer;
+            formObject.owner = result.owner;
           
         }else{
-          formObject.orderer = null;
+          formObject.owner = null;
         }
       
 
@@ -384,19 +346,15 @@ export class OrderComponent implements OnInit {
         
       
         
-          "vehicleDetails":null,
-        
-      
-        
           "orderStatus":null,
         
       
         
-          "options":null,
+          "vehicle":null,
         
       
         
-          "orderer":null 
+          "owner":null 
         
       
       });

@@ -23,16 +23,6 @@
           
 
             
-              <div class="form-group text-left">
-                <label for="vehicleDetails">vehicleDetails</label>
-                
-                    <textarea formControlName="vehicleDetails" class="form-control" rows="3"></textarea>
-                
-              </div>
-            
-          
-
-            
               <label for="orderStatus">orderStatus</label>
               <div class="checkbox">
                 
@@ -55,45 +45,6 @@
                         formControlName="orderStatus"
                       
                       name="orderStatus"
-                      value="SCHEDULED_FOR_MANUFACTURE"
-                      type="radio"
-                      
-                    />
-                    SCHEDULED_FOR_MANUFACTURE
-                  </label>
-                
-                  <label>
-                    <input
-                      
-                        formControlName="orderStatus"
-                      
-                      name="orderStatus"
-                      value="VIN_ASSIGNED"
-                      type="radio"
-                      
-                    />
-                    VIN_ASSIGNED
-                  </label>
-                
-                  <label>
-                    <input
-                      
-                        formControlName="orderStatus"
-                      
-                      name="orderStatus"
-                      value="OWNER_ASSIGNED"
-                      type="radio"
-                      
-                    />
-                    OWNER_ASSIGNED
-                  </label>
-                
-                  <label>
-                    <input
-                      
-                        formControlName="orderStatus"
-                      
-                      name="orderStatus"
                       value="DELIVERED"
                       type="radio"
                       
@@ -107,9 +58,9 @@
 
             
               <div class="form-group text-left">
-                <label for="options">options</label>
+                <label for="vehicle">vehicle</label>
                 
-                    <textarea formControlName="options" class="form-control" rows="3"></textarea>
+                    <textarea formControlName="vehicle" class="form-control" rows="3"></textarea>
                 
               </div>
             
@@ -117,9 +68,9 @@
 
             
               <div class="form-group text-left">
-                <label for="orderer">orderer</label>
+                <label for="owner">owner</label>
                 
-                    <textarea formControlName="orderer" class="form-control" rows="3"></textarea>
+                    <textarea formControlName="owner" class="form-control" rows="3"></textarea>
                 
               </div>
             
@@ -161,17 +112,6 @@
             </div>
           
             <div class="form-group text-left">
-              <label for="vehicleDetails">vehicleDetails</label>
-
-              
-                
-                  <textarea [ngModel]="vehicleDetails" formControlName="vehicleDetails" class="form-control" rows="3"></textarea>
-                
-              
-
-            </div>
-          
-            <div class="form-group text-left">
               <label for="orderStatus">orderStatus</label>
 
               
@@ -200,48 +140,6 @@
                             [ngModel]="orderStatus"
                           
                           name="orderStatus"
-                          value="SCHEDULED_FOR_MANUFACTURE"
-                          type="radio"
-                          
-                        />
-                        SCHEDULED_FOR_MANUFACTURE
-                      </label>
-                    
-                      <label>
-                        <input
-                          
-                            formControlName="orderStatus"
-                            [ngModel]="orderStatus"
-                          
-                          name="orderStatus"
-                          value="VIN_ASSIGNED"
-                          type="radio"
-                          
-                        />
-                        VIN_ASSIGNED
-                      </label>
-                    
-                      <label>
-                        <input
-                          
-                            formControlName="orderStatus"
-                            [ngModel]="orderStatus"
-                          
-                          name="orderStatus"
-                          value="OWNER_ASSIGNED"
-                          type="radio"
-                          
-                        />
-                        OWNER_ASSIGNED
-                      </label>
-                    
-                      <label>
-                        <input
-                          
-                            formControlName="orderStatus"
-                            [ngModel]="orderStatus"
-                          
-                          name="orderStatus"
                           value="DELIVERED"
                           type="radio"
                           
@@ -257,22 +155,22 @@
             </div>
           
             <div class="form-group text-left">
-              <label for="options">options</label>
+              <label for="vehicle">vehicle</label>
 
               
                 
-                  <textarea [ngModel]="options" formControlName="options" class="form-control" rows="3"></textarea>
+                  <textarea [ngModel]="vehicle" formControlName="vehicle" class="form-control" rows="3"></textarea>
                 
               
 
             </div>
           
             <div class="form-group text-left">
-              <label for="orderer">orderer</label>
+              <label for="owner">owner</label>
 
               
                 
-                  <textarea [ngModel]="orderer" formControlName="orderer" class="form-control" rows="3"></textarea>
+                  <textarea [ngModel]="owner" formControlName="owner" class="form-control" rows="3"></textarea>
                 
               
 
@@ -351,13 +249,11 @@
             
                 <th class="info">orderId</th>
             
-                <th class="info">vehicleDetails</th>
-            
                 <th class="info">orderStatus</th>
             
-                <th class="info">options</th>
+                <th class="info">vehicle</th>
             
-                <th class="info">orderer</th>
+                <th class="info">owner</th>
             
               <th class="info-actions">Actions</th>
           </tr>
@@ -368,13 +264,11 @@
             
                 <td class="asset-properties">{{asset.orderId}}</td>
             
-                <td class="asset-properties">{{asset.vehicleDetails}}</td>
-            
                 <td class="asset-properties">{{asset.orderStatus}}</td>
             
-                <td class="asset-properties">{{asset.options}}</td>
+                <td class="asset-properties">{{asset.vehicle}}</td>
             
-                <td class="asset-properties">{{asset.orderer}}</td>
+                <td class="asset-properties">{{asset.owner}}</td>
             
             <td>
               <button (click)="getForm(asset.orderId);" type="button" class="btn btn-update" data-toggle="modal" data-target="#updateAssetModal">
