@@ -7,6 +7,7 @@ import {Event} from './org.hyperledger.composer.system';
       make: Manufacturer;
       modelType: string;
       colour: string;
+      yearOfManufacture: number;
    }
    export abstract class Company extends Participant {
       companyId: string;

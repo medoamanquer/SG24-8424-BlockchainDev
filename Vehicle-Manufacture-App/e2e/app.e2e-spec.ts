@@ -1,23 +1,28 @@
 import { AngularTestPage } from './app.po';
 import { browser, element, by } from 'protractor';
 
-describe('Starting tests for Front-End', function() {
+describe('Starting tests for Vehicle-Manufacture-App', function() {
   let page: AngularTestPage;
 
   beforeEach(() => {
     page = new AngularTestPage();
   });
 
-  it('website title should be Front-End', () => {
+  it('website title should be Vehicle-Manufacture-App', () => {
     page.navigateTo('/');
     return browser.getTitle().then((result)=>{
-      expect(result).toBe('Front-End');
+      expect(result).toBe('Vehicle-Manufacture-App');
     })
   });
 
-  it('navbar-brand should be car-network@1.0.0',() => {
+  it('network-name should be sample-app@1.0.0',() => {
+    var networkName = element(by.css('.network-name')).getWebElement();
+    expect(networkName.getText()).toBe('sample-app@1.0.0.bna');
+  });
+
+  it('navbar-brand should be Vehicle-Manufacture-App',() => {
     var navbarBrand = element(by.css('.navbar-brand')).getWebElement();
-    expect(navbarBrand.getText()).toBe('car-network@1.0.0');
+    expect(navbarBrand.getText()).toBe('Vehicle-Manufacture-App');
   });
 
   

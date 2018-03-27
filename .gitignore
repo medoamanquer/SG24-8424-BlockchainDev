@@ -2,10 +2,11 @@ Front-End/node_modules
 network/node_modules
 network/composer-logs
 environment/hlfv11/composer-logs
-test/npm_modules
+test/node_modules
 test/composer-logs
 security/CAInteraction/composer-logs
 security/CAInteraction/node_modules
 security/CAInteraction/hfc-key-store
 security/CAInteraction/composer-card-store
+security/CAInteraction/Vendor
 
