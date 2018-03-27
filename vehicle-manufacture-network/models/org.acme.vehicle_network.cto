@@ -6,13 +6,6 @@ namespace org.acme.vehicle_network
 
 // BASE DEFINTIONS
 
-concept VehicleDetails {
-  --> Manufacturer make
-  o String modelType
-  o String colour
-  o Integer yearOfManufacture range = [2018, ]
-}
-
 abstract participant Company identified by companyId {
   o String companyId
   o String name
@@ -28,45 +21,35 @@ participant Person identified by username {
 participant Manufacturer extends Company { 
 }
 
-enum OrderStatus {
-  o PLACED
-  o SCHEDULED_FOR_MANUFACTURE
-  o VIN_ASSIGNED
-  o OWNER_ASSIGNED
-  o DELIVERED
-}
-
-concept Options {
-  o String trim
-  o String interior
-  o String[] extras
+// REGULATOR DEFINITIONS
+participant Regulator extends Company { 
 }
 
 asset Order identified by orderId {
   o String orderId
-  o VehicleDetails vehicleDetails 
-  o OrderStatus orderStatus 
-  o Options options
-  --> Person orderer 
+  o OrderStatus orderStatus default = "PLACED"
+  --> Vehicle vehicle
+  --> Person owner
+}
+
+asset Vehicle identified by vin {
+  o String vin
+  o String trim
+  o String interior
+  o String[] extras
+  --> Manufacturer make
+  o String modelType
+  o String colour
+  o Integer yearOfManufacture default = 2018 range = [2018, ]
+  //o VehicleStatus vehicleStatus
+
 }
 
 transaction PlaceOrder {
-  o String orderId
-  o VehicleDetails vehicleDetails
-  o Options options
-  --> Person orderer
+  o Order order
 }
-
-event PlaceOrderEvent {
-  o String orderId
-  o VehicleDetails vehicleDetails
-  o Options options
-  --> Person orderer
-}
-
 transaction UpdateOrderStatus {
   o OrderStatus orderStatus
-  o String vin optional
   --> Order order
 }
 
@@ -75,20 +58,24 @@ event UpdateOrderStatusEvent {
   o Order order
 }
 
+event PlaceOrderEvent {
 
-// REGULATOR DEFINITIONS
-participant Regulator extends Company { 
+  o Order order
 }
 
+/*
 enum VehicleStatus {
   o ACTIVE
   o OFF_THE_ROAD
   o SCRAPPED
 }
+*/
 
-asset Vehicle identified by vin {
-  o String vin
-  o VehicleDetails vehicleDetails
-  o VehicleStatus vehicleStatus
-  --> Person owner optional
+enum OrderStatus {
+  o PLACED
+  //o SCHEDULED_FOR_MANUFACTURE
+ // o VIN_ASSIGNED
+ // o OWNER_ASSIGNED
+  o DELIVERED
 }
+

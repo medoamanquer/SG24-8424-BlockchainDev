@@ -26,11 +26,9 @@ function placeOrder(orderRequest) {
   	var namespace = 'org.acme.vehicle_network';
     var url = 'https://blockchainintegrationtest.eu-gb.mybluemix.net/compute';
   
-  	var order = factory.newResource(namespace, 'Order', orderRequest.orderId);
-    order.vehicleDetails = orderRequest.vehicleDetails;
-    order.orderStatus = 'PLACED';
-    order.orderer = factory.newRelationship(namespace, 'Person', orderRequest.orderer.getIdentifier());
-  	order.options = orderRequest.options;
+  	var order = factory.newResource(namespace, 'Order', orderRequest.order.orderId);
+    
+    order = orderRequest.order; //in this, user will enter order ID, order status, vehicle ID, owner ID
 
     // save the order
     return getAssetRegistry(order.getFullyQualifiedType())
@@ -40,10 +38,8 @@ function placeOrder(orderRequest) {
   	.then(function () {
       // emit the event
       var placeOrderEvent = factory.newEvent(namespace, 'PlaceOrderEvent');
-      placeOrderEvent.orderId = order.orderId;
-      placeOrderEvent.vehicleDetails = order.vehicleDetails;
-      placeOrderEvent.options = order.options;
-      placeOrderEvent.orderer = order.orderer;
+      placeOrderEvent.order = order;
+      
       emit(placeOrderEvent);
       return post( url,order )
     }).then(function (result) {
@@ -63,35 +59,7 @@ function updateOrderStatus(updateOrderRequest) {
     var factory = getFactory();
   	var namespace = 'org.acme.vehicle_network';
   
-  	// get vehicle registry
-  	return getAssetRegistry(namespace + '.Vehicle')
-  	.then(function (vehicleRegistry) {
-      if (updateOrderRequest.orderStatus === 'VIN_ASSIGNED') {
-          if (!updateOrderRequest.vin) {
-              throw new Error('Value for VIN was expected'); 
-          }
-          // create a vehicle
-          var vehicle = factory.newResource(namespace, 'Vehicle', updateOrderRequest.vin );
-          vehicle.vehicleDetails = updateOrderRequest.order.vehicleDetails;
-          vehicle.vehicleStatus = 'OFF_THE_ROAD';
-          return vehicleRegistry.add(vehicle);
-      } else if(updateOrderRequest.orderStatus === 'OWNER_ASSIGNED') {
-          if (!updateOrderRequest.vin) {
-              throw new Error('Value for VIN was expected'); 
-          }
-
-          // assign the owner of the vehicle to be the person who placed the order
-          return vehicleRegistry.get(updateOrderRequest.vin)
-          .then(function (vehicle) {
-            vehicle.vehicleStatus = 'ACTIVE';
-            vehicle.owner = factory.newRelationship(namespace, 'Person', updateOrderRequest.order.orderer.username);
-            return vehicleRegistry.update(vehicle);
-          });
-      }
-    })
-  	.then(function() {
-      return getAssetRegistry(namespace + '.Order');
-    })
+   return getAssetRegistry(namespace + '.Order')
   	.then(function(orderRegistry) {
       // update the order
       var order = updateOrderRequest.order;
@@ -101,8 +69,8 @@ function updateOrderStatus(updateOrderRequest) {
   	.then(function() {
       // emit the event
       var updateOrderStatusEvent = factory.newEvent(namespace, 'UpdateOrderStatusEvent');
-      updateOrderStatusEvent.orderStatus = updateOrderRequest.order.orderStatus;
       updateOrderStatusEvent.order = updateOrderRequest.order;
+      updateOrderStatusEvent.orderStatus = updateOrderRequest.order.orderStatus;
       emit(updateOrderStatusEvent);
     });
 }
