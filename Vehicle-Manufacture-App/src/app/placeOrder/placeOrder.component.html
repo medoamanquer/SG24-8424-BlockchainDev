@@ -1,0 +1,84 @@
+<div class="modal fade" id="addAssetModal" tabindex="-1" role="dialog" aria-labelledby="addAssetModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="addAssetModalLabel">Create asset</h4>
+          <p class="modal-intro">Enter the required values below.</p>
+      </div>
+      <form [formGroup]="myForm">
+        <div class="modal-body">
+
+
+          
+
+            
+              <div class="form-group text-left">
+                <label for="orderId">orderId</label>
+                
+                  <input formControlName="orderId" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="vehicleDetails">vehicle</label>
+                
+                    <textarea formControlName="vehicle" class="form-control" rows="3"></textarea>
+                
+              </div>
+  
+            
+              
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="orderer">orderer</label>
+                
+                    <textarea formControlName="orderer" class="form-control" rows="3"></textarea>
+                
+              </div>
+            
+          
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button (click)="addNewOrder(myForm);" type="submit" class="btn btn-success" data-dismiss="modal">Confirm</button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container">
+	<div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+		<strong>Error:</strong> {{errorMessage}}
+	</div>
+  
+  <div class="row">
+    <div class="col-md-9">
+        <h1 class="asset-title" id='assetName'>placeOrder</h1>
+    </div>
+
+    <div class="col-md-4">
+
+      <button (click)="resetForm()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAssetModal">
+        <span style="font-size: 14px;font-family: inherit;border-right:1px solid rgba(255,255,255,0.5);padding-right:0.6em;margin-right:0.5em;vertical-align:middle;">
+            <svg class="plus-svg" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10">
+              <path fill-rule="evenodd" d="M5.5,4.5 L9.5,4.5 L10,4.5 L10,5.5 L9.5,5.5 L5.5,5.5 L5.5,9.5 L5.5,10 L4.5,10 L4.5,9.5 L4.5,5.5 L0.5,5.5 L0,5.5 L0,4.5 L0.5,4.5 L4.5,4.5 L4.5,0.5 L4.5,0 L5.5,0 L5.5,0.5 L5.5,4.5 Z"/>
+            </svg>
+        </span>
+      Place New Order
+    </button>
+
+    </div>
+    
+</div>

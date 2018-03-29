@@ -1,3 +1,4 @@
+/*
 rule PersonMakeOrder {
  	description: "Allow Persons to create and view orders"
   	participant(p): "org.acme.vehicle_network.Person"
@@ -80,16 +81,22 @@ rule RegulatorAdminUser {
     resource: "**"
   	action: ALLOW
 }
-
-rule ParticipantsSeeSelves {
-  	description: "Let participants see themselves"
-  	participant(p): "org.hyperledger.composer.system.Participant"
+*/
+rule tempRuleAllAllowAccess {
+  	description: "all allow access"
+  	participant: "ANY"
   	operation: ALL
-    resource(r): "org.hyperledger.composer.system.Participant"
-  	condition: (r.getIdentifier() == p.getIdentifier())
+    resource: "org.acme.vehicle_network.*"
   	action: ALLOW
 }
 
+rule tempRuleAllAllowAccessToSystemResources {
+  	description: "all allow access"
+  	participant: "ANY"
+  	operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+  	action: ALLOW
+}
 rule NetworkAdminUser {
     description: "Grant business network administrators full access to user resources"
     participant: "org.hyperledger.composer.system.NetworkAdmin"
