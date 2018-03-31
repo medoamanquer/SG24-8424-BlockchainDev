@@ -25,13 +25,11 @@
 const BusinessNetworkConnection = require('composer-client').BusinessNetworkConnection;
 const Table = require('cli-table');
 const winston = require('winston');
-//let config = require('config');
 let config = require('config').get('businessNetworkIdentifier');
 
-const prettyjson = require('prettyjson');
+//const prettyjson = require('prettyjson');
 
 // these are the credentials to use to connect to the Hyperledger Fabric
-//let cardname = config.get('cardname');
 let cardname = require('config').get('cardName');
 
 const LOG = winston.loggers.get('application');
@@ -79,45 +77,52 @@ class VehicleManufacturerNetwork
         let factory = this.businessNetworkDefinition.getFactory();
 
         LOG.info('VehicleManufacturerNetwork', 'Creating a person');
-        var person1 = factory.newResource('org.acme.vehicle_network', 'Person', 'username:person88');
+        var person1 = factory.newResource('org.acme.vehicle_network', 'Person', 'username:person101');
         person1.email = 'Mostafa';
  
-        var person2 = factory.newResource('org.acme.vehicle_network', 'Person', 'username:person99');
+        var person2 = factory.newResource('org.acme.vehicle_network', 'Person', 'username:person102');
         person2.email = 'Mostafa';
 
  /////////////////////////////////////////////////CREATING 2 MANUFACTUERERS /////////////////////////////////
         LOG.info('VehicleManufacturerNetwork', 'Creating a manufacturer');
-        var manufacturer1 = factory.newResource('org.acme.vehicle_network', 'Manufacturer', 'companyId:id88');
+        var manufacturer1 = factory.newResource('org.acme.vehicle_network', 'Manufacturer', 'companyId:company101');
         manufacturer1.name = 'Toyota';
         
-        var manufacturer2 = factory.newResource('org.acme.vehicle_network', 'Manufacturer', 'companyId:id99');
+        var manufacturer2 = factory.newResource('org.acme.vehicle_network', 'Manufacturer', 'companyId:company102');
         manufacturer2.name = 'Kia';
       
+
+ /////////////////////////////////////////////////CREATING VEHICLE ASSET /////////////////////////////////
+ LOG.info('VehicleManufacturerNetwork', 'Creating a vehicle asset');
+ 
+ 
+ var vehicle = factory.newResource('org.acme.vehicle_network', 'Vehicle', 'vin:vehicle101');
+
+ vehicle.modelType = "Sedan";
+ vehicle.colour = "Red";
+ vehicle.yearOfManufacture = 2020;
+ vehicle.trim = "good";
+ vehicle.interior = "good";
+ vehicle.extras = ["AC", "4 DOORS"];
+
+ let make = factory.newRelationship('org.acme.vehicle_network', 'Manufacturer', 'companyId:company101');
+ vehicle.make = make;
+
  /////////////////////////////////////////////////CREATING ORDER ASSET /////////////////////////////////
-        LOG.info('VehicleManufacturerNetwork', 'Creating order asset');
-      
-        var assetOrder = factory.newResource('org.acme.vehicle_network', 'Order', 'orderId:order88');
+        LOG.info('VehicleManufacturerNetwork', 'Creating a order asset');
+        var assetOrder = factory.newResource('org.acme.vehicle_network', 'Order', 'orderId:order101');
         
-        var options = factory.newConcept('org.acme.vehicle_network', 'Options');
-        options.trim = "good";
-        options.interior = "good";
-        options.extras = ["AC", "4 DOORS"];
-        
-        let ordererPerson = factory.newRelationship('org.acme.vehicle_network', 'Person', 'username:username1');
-
-        var vehicleDetails = factory.newConcept('org.acme.vehicle_network', 'VehicleDetails');
-        vehicleDetails.modelType = "Sedan";
-        vehicleDetails.colour = "Red";
-        vehicleDetails.yearOfManufacture = 2020;
-        let make = factory.newRelationship('org.acme.vehicle_network', 'Manufacturer', 'companyId:id1');
-        vehicleDetails.make = make;
-
-        assetOrder.options = options;
         assetOrder.orderStatus = "PLACED";
-        assetOrder.orderer = ordererPerson;
-        assetOrder.vehicleDetails = vehicleDetails;
-        
-        return this.bizNetworkConnection.getParticipantRegistry('org.acme.vehicle_network.Person')
+
+        let vehicleRelationship = factory.newRelationship('org.acme.vehicle_network', 'Vehicle', 'vin:vehicle101');
+        assetOrder.vehicle = vehicleRelationship;
+      
+        let ordererPerson = factory.newRelationship('org.acme.vehicle_network', 'Person', 'username:person101');
+        assetOrder.owner = ordererPerson;
+
+/////////////////////////////////////////////////////////////////////////////
+
+return this.bizNetworkConnection.getParticipantRegistry('org.acme.vehicle_network.Person')
       .then((personRegistry) => {
           return personRegistry.addAll([person1, person2]);
       })
@@ -127,13 +132,18 @@ class VehicleManufacturerNetwork
       .then((participantRegistry) => {
           return participantRegistry.addAll([manufacturer1, manufacturer2]);
     })
+    .then(() => {
+        return this.bizNetworkConnection.getAssetRegistry('org.acme.vehicle_network.Vehicle');
+    })
+      .then((assetRegistry) => {
+          return assetRegistry.add(vehicle);
+    })
       .then(() => {
         return this.bizNetworkConnection.getAssetRegistry('org.acme.vehicle_network.Order');
     })
       .then((assetRegistry) => {
           return assetRegistry.add(assetOrder);
-    })// and catch any exceptions that are triggered
-      .catch(function (error) {
+    }).catch(function (error) {
           console.log(error);
           LOG.error('VehicleManufacturerNetwork:_bootstrapTitles', error);
           throw error;
