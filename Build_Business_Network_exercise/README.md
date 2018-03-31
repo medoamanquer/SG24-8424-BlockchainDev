@@ -68,10 +68,12 @@ Two important notions come to play when constructing a Hyperledger Fabric networ
 In the lab exercise, you are expected to:
 
 * <b>Investigate the proposed network configurate, and spin up the network.</b>
-*  <b> Create a channel, and deploy sample chaincode </b>
+* <b> Create a channel, and deploy sample chaincode </b>
 * <b> Access the CouchDB through backdoor that maintains the world state </b>
 * <b> Create another channel, and deploy another flavor of an encrypted chaincode </b>
 * <b> Access the CouchDB through backdoor that maintains the world state.</b>
+* <b> Add new organization peer to the network </b>
+* <b> Join an existing channel, and view the wrold state from the new peer </b>
 
 <b>You should  be provided with a VM that contains all the pre-requirements, and the proper environment setup in order to attempt this exercise. </b>
 
