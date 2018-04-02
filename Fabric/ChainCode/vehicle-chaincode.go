@@ -79,7 +79,7 @@ func (s *SmartContract) queryVehicle(APIstub shim.ChaincodeStubInterface, args [
  */
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
 	vehicle := []Vehicle{
-		Vehicle{ModelType: "New Car", Colour: "Red", Timestamp: "1504054225", Owner: "Ahmad"},
+		Vehicle{ModelType: "New Car", Colour: "Red", Timestamp: "1504054225",Location: Owner: "Ahmad"},
 	}
 
 	i := 0
@@ -104,7 +104,7 @@ func (s *SmartContract) recordVehicle(APIstub shim.ChaincodeStubInterface, args 
 		return shim.Error("Error Expecting 5 argument")
 	}
 
-	var vehicle = Vehicle{ModelType: args[1], Colour: args[2], Timestamp: args[3], Owner: args[4]}
+	var vehicle = Vehicle{ModelType: args[1], Colour: args[2], Timestamp: args[3],Location:args[4] ,Owner: args[5]}
 
 	vehicleAsBytes, _ := json.Marshal(vehicle)
 	err := APIstub.PutState(args[0], vehicleAsBytes)
