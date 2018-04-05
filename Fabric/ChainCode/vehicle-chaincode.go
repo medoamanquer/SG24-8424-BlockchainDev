@@ -29,7 +29,7 @@ type Vehicle struct {
 
 /*
  * The Init method *
- called when the Smart Contract "About Vihcle" is instantiated by the network
+ called when the Smart Contract "About Vehicle" is instantiated by the network
 No Implementation as best to seperat in another function
 */
 func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
@@ -79,13 +79,13 @@ func (s *SmartContract) queryVehicle(APIstub shim.ChaincodeStubInterface, args [
  */
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
 	vehicle := []Vehicle{
-		Vehicle{ModelType: "New Car", Colour: "Red", Timestamp: "1504054225",Location: Owner: "Ahmad"},
+		Vehicle{ModelType: "New Car", Colour: "Red", Timestamp: "1504054225",Location:"", Owner: "Ahmad"},
 	}
 
 	i := 0
 	for i < len(vehicle) {
 		vehicleAsBytes, _ := json.Marshal(vehicle[i])
-		APIstub.PutState(strconv.Itoa(i+1), vehicleAsBytes)
+		APIstub.PutState(strconv.Itoa(i), vehicleAsBytes)
 		i = i + 1
 	}
 
@@ -100,8 +100,8 @@ this method to save new vehicle
 */
 func (s *SmartContract) recordVehicle(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
-	if len(args) != 5 {
-		return shim.Error("Error Expecting 5 argument")
+	if len(args) != 6 {
+		return shim.Error("Error Expecting 6 arguments")
 	}
 
 	var vehicle = Vehicle{ModelType: args[1], Colour: args[2], Timestamp: args[3],Location:args[4] ,Owner: args[5]}
