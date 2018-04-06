@@ -35,7 +35,7 @@ var chaincode = class {
 
             case "recordVehicle":
                 if (params.length != 5) {
-                    return shim.error("Error Expecting 4 arguments & function");
+                    return shim.error("Error Expecting 5 arguments & function");
                 }
 
                 vehicle = {
@@ -45,7 +45,7 @@ var chaincode = class {
                     Owner: params[4]
                 };
 
-                return shim.putState(params[0], Buffer.from (JSON.stringify(vehicle))).then(
+                return stub.putState(params[0], Buffer.from(JSON.stringify(vehicle))).then(
                     () => {
                         return shim.success();
                     }
