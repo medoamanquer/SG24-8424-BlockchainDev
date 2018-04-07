@@ -1,0 +1,47 @@
+<div class = "container">
+   <h1> Query Vehicle</h1>
+   <form>
+      <div class = "form-group">
+         <label for = "vehicleid">ID</label>
+         <input type = "text" class = "form-control" id = "vehicleid" required
+            [(ngModel)] = "model.id" name = "id">
+      </div>
+
+       <button type="button" class="btn btn-default" (click)="getVehicle();">Query </button>
+
+
+      <div class = "form-group">
+         <label for = "model">Model Type</label>
+         <input type = "text" class = "form-control" id = "model" disabled=true
+            [(ngModel)] = "model.modelType" name = "model">
+      </div>
+
+      <div class = "form-group">
+         <label for = "colour">Colour</label>
+         <input type = "text" class = "form-control" id = "colour" disabled=true
+            [(ngModel)] = "model.colour" name = "colour">
+      </div>
+
+      <div class = "form-group">
+         <label for = "time">Time Stamp</label>
+         <input type = "text" class = "form-control" id = "time" disabled=true
+            [(ngModel)] = "model.timestamp" name = "time">
+      </div>
+
+      <div class = "form-group">
+         <label for = "location">Location</label>
+         <input type = "text" class = "form-control" id = "location" disabled=true
+            [(ngModel)] = "model.location" name = "location">
+      </div>
+
+      <div class = "form-group">
+         <label for = "model">Owner</label>
+         <input type = "text" class = "form-control" id = "owner" disabled=true
+            [(ngModel)] = "model.owner" name = "owner">
+      </div>
+       
+
+
+   </form>
+</div>
+
