@@ -67,7 +67,7 @@ class VehicleManufacturerNetwork
 
 
 
-  /** bootstrap into the resgitry a few example Commodity
+  /** bootstrap into the resgitry 
     * @return {Promise} resolved when the assests have been created
   */
     _bootstrapTitles() 
@@ -77,26 +77,26 @@ class VehicleManufacturerNetwork
         let factory = this.businessNetworkDefinition.getFactory();
 
         LOG.info('VehicleManufacturerNetwork', 'Creating a person');
-        var person1 = factory.newResource('org.acme.vehicle_network', 'Person', 'username:person101');
+        var person1 = factory.newResource('org.acme.vehicle_network', 'Person', 'username:person103');
         person1.email = 'Mostafa';
  
-        var person2 = factory.newResource('org.acme.vehicle_network', 'Person', 'username:person102');
+        var person2 = factory.newResource('org.acme.vehicle_network', 'Person', 'username:person104');
         person2.email = 'Mostafa';
 
  /////////////////////////////////////////////////CREATING 2 MANUFACTUERERS /////////////////////////////////
         LOG.info('VehicleManufacturerNetwork', 'Creating a manufacturer');
-        var manufacturer1 = factory.newResource('org.acme.vehicle_network', 'Manufacturer', 'companyId:company101');
+        var manufacturer1 = factory.newResource('org.acme.vehicle_network', 'Manufacturer', 'companyId:company103');
         manufacturer1.name = 'Toyota';
         
-        var manufacturer2 = factory.newResource('org.acme.vehicle_network', 'Manufacturer', 'companyId:company102');
+        var manufacturer2 = factory.newResource('org.acme.vehicle_network', 'Manufacturer', 'companyId:company104');
         manufacturer2.name = 'Kia';
       
 
- /////////////////////////////////////////////////CREATING VEHICLE ASSET /////////////////////////////////
+ /////////////////////////////////////////////////CREATING 2 VEHICLE ASSETS /////////////////////////////////
  LOG.info('VehicleManufacturerNetwork', 'Creating a vehicle asset');
  
  
- var vehicle = factory.newResource('org.acme.vehicle_network', 'Vehicle', 'vin:vehicle101');
+ var vehicle = factory.newResource('org.acme.vehicle_network', 'Vehicle', 'vin:vehicle103');
 
  vehicle.modelType = "Sedan";
  vehicle.colour = "Red";
@@ -105,23 +105,54 @@ class VehicleManufacturerNetwork
  vehicle.interior = "good";
  vehicle.extras = ["AC", "4 DOORS"];
 
- let make = factory.newRelationship('org.acme.vehicle_network', 'Manufacturer', 'companyId:company101');
+ let make = factory.newRelationship('org.acme.vehicle_network', 'Manufacturer', 'companyId:company103');
  vehicle.make = make;
 
- /////////////////////////////////////////////////CREATING ORDER ASSET /////////////////////////////////
+ //////////
+ var vehicle2 = factory.newResource('org.acme.vehicle_network', 'Vehicle', 'vin:vehicle104');
+
+ vehicle2.modelType = "COUPE";
+ vehicle2.colour = "black";
+ vehicle2.yearOfManufacture = 2020;
+ vehicle2.trim = "good";
+ vehicle2.interior = "good";
+ vehicle2.extras = ["AC", "2 DOORS"];
+
+ let make2 = factory.newRelationship('org.acme.vehicle_network', 'Manufacturer', 'companyId:company104');
+ vehicle2.make = make2;
+
+ /////////////////////////////////////////////////CREATING 1 ORDER ASSET USING ASSET REGISTRY /////////////////////////////////
         LOG.info('VehicleManufacturerNetwork', 'Creating a order asset');
-        var assetOrder = factory.newResource('org.acme.vehicle_network', 'Order', 'orderId:order101');
+        var assetOrder = factory.newResource('org.acme.vehicle_network', 'Order', 'orderId:order103');
         
         assetOrder.orderStatus = "PLACED";
 
-        let vehicleRelationship = factory.newRelationship('org.acme.vehicle_network', 'Vehicle', 'vin:vehicle101');
+        let vehicleRelationship = factory.newRelationship('org.acme.vehicle_network', 'Vehicle', 'vin:vehicle103');
         assetOrder.vehicle = vehicleRelationship;
       
-        let ordererPerson = factory.newRelationship('org.acme.vehicle_network', 'Person', 'username:person101');
+        let ordererPerson = factory.newRelationship('org.acme.vehicle_network', 'Person', 'username:person103');
         assetOrder.owner = ordererPerson;
 
-/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////CREATING 1 ORDER ASSET USING PLACE ORDER TRANSACTION /////////////////////////////////
+LOG.info('VehicleManufacturerNetwork', 'Creating place order transaction');
 
+
+var assetOrder2 = factory.newResource('org.acme.vehicle_network', 'Order', 'orderId:order104');
+        
+assetOrder2.orderStatus = "PLACED";
+
+
+let vehicleRelationship2 = factory.newRelationship('org.acme.vehicle_network', 'Vehicle', 'vin:vehicle104');
+assetOrder2.vehicle = vehicleRelationship2;
+
+let ordererPerson2 = factory.newRelationship('org.acme.vehicle_network', 'Person', 'username:person104');
+assetOrder2.owner = ordererPerson2;
+
+
+var placeOrderTransaction = factory.newTransaction('org.acme.vehicle_network', 'PlaceOrder');
+placeOrderTransaction.order = assetOrder2;
+
+/////////////////////////////////////////////////////////////////////////////
 return this.bizNetworkConnection.getParticipantRegistry('org.acme.vehicle_network.Person')
       .then((personRegistry) => {
           return personRegistry.addAll([person1, person2]);
@@ -136,13 +167,16 @@ return this.bizNetworkConnection.getParticipantRegistry('org.acme.vehicle_networ
         return this.bizNetworkConnection.getAssetRegistry('org.acme.vehicle_network.Vehicle');
     })
       .then((assetRegistry) => {
-          return assetRegistry.add(vehicle);
+          return assetRegistry.addAll([vehicle, vehicle2]);
     })
       .then(() => {
         return this.bizNetworkConnection.getAssetRegistry('org.acme.vehicle_network.Order');
     })
       .then((assetRegistry) => {
           return assetRegistry.add(assetOrder);
+    })
+    .then(() => {
+        return this.bizNetworkConnection.submitTransaction(placeOrderTransaction);
     }).catch(function (error) {
           console.log(error);
           LOG.error('VehicleManufacturerNetwork:_bootstrapTitles', error);

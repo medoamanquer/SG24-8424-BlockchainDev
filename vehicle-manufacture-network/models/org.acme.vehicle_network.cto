@@ -41,7 +41,6 @@ asset Vehicle identified by vin {
   o String modelType
   o String colour
   o Integer yearOfManufacture default = 2018 range = [2018, ]
-  //o VehicleStatus vehicleStatus
 
 }
 
@@ -62,14 +61,6 @@ event PlaceOrderEvent {
 
   o Order order
 }
-
-/*
-enum VehicleStatus {
-  o ACTIVE
-  o OFF_THE_ROAD
-  o SCRAPPED
-}
-*/
 
 enum OrderStatus {
   o PLACED
