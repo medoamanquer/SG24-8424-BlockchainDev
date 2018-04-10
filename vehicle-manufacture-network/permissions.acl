@@ -1,4 +1,4 @@
-/*
+
 rule PersonMakeOrder {
  	description: "Allow Persons to create and view orders"
   	participant(p): "org.acme.vehicle_network.Person"
@@ -81,7 +81,7 @@ rule RegulatorAdminUser {
     resource: "**"
   	action: ALLOW
 }
-*/
+
 rule tempRuleAllAllowAccess {
   	description: "all allow access"
   	participant: "ANY"
