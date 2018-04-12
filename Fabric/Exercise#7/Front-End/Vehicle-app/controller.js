@@ -87,7 +87,7 @@ return{
 		    // send proposal to endorser
 		    const request = {
 		        //targets : --- letting this default to the peers assigned to the channel
-		        chaincodeId: 'fabcar',
+		        chaincodeId: chainCodeName,
 		        fcn: 'recordVehicle',
 		        args: [key, model, colour, timestamp, location, owner],
 		        chainId: 'mychannel',
