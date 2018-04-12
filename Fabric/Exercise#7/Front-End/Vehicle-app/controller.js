@@ -186,7 +186,7 @@ return{
 		        console.log('Transaction failed to be committed to the ledger due to ::'+results[1].event_status);
 		    }
 		}).catch((err) => {
-		    console.error('Failed to invoke successfully :: ' + err);
+		    
 		});
 	},
 	getVehicle: function(req, res){

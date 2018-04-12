@@ -1,10 +1,10 @@
-import { FabricClientUiPage } from './app.po';
+import { ProjectPage } from './app.po';
 
-describe('fabric-client-ui App', function() {
-  let page: FabricClientUiPage;
+describe('project App', function() {
+  let page: ProjectPage;
 
   beforeEach(() => {
-    page = new FabricClientUiPage();
+    page = new ProjectPage();
   });
 
   it('should display message saying app works', () => {
