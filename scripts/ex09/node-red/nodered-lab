@@ -1,0 +1,152 @@
+[
+    {
+        "id": "d80aa2e8.82bcd8",
+        "type": "tab",
+        "label": "Exercise 09",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "9572e442.cb2728",
+        "type": "websocket in",
+        "z": "d80aa2e8.82bcd8",
+        "name": "",
+        "server": "a17028ac.be9388",
+        "client": "",
+        "x": 123,
+        "y": 299,
+        "wires": [
+            [
+                "8b0ef43c.718788"
+            ]
+        ]
+    },
+    {
+        "id": "bf8ffd28.948ae",
+        "type": "debug",
+        "z": "d80aa2e8.82bcd8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 583,
+        "y": 219,
+        "wires": []
+    },
+    {
+        "id": "8b0ef43c.718788",
+        "type": "function",
+        "z": "d80aa2e8.82bcd8",
+        "name": "Format Message",
+        "func": "const e = JSON.parse(msg.payload);\nlet eventName = e.$class.split('.')[3];\n\nif (eventName === 'CancelOrderEvent') {\n    orderStatus = e.orderStatus;\n    orderId = e.order.orderId;\n    vehicle = e.order.vehicle.split('#')[1];\n    owner = e.order.owner.split('#')[1];\n    timestamp = new Date(e.timestamp);\n    msg.payload = `${eventName}: Order ${orderId} with VIN Number ${vehicle} and Owner ${owner} is ${orderStatus} on ${timestamp.toDateString()}`;\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 383,
+        "y": 299,
+        "wires": [
+            [
+                "bf8ffd28.948ae",
+                "25bf198f.dec7e6"
+            ]
+        ],
+        "inputLabels": [
+            "msg"
+        ]
+    },
+    {
+        "id": "25bf198f.dec7e6",
+        "type": "file",
+        "z": "d80aa2e8.82bcd8",
+        "name": "Event Storage",
+        "filename": "/tmp/events",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "x": 593,
+        "y": 379,
+        "wires": [],
+        "inputLabels": [
+            "msg.payload"
+        ]
+    },
+    {
+        "id": "36898394.19f884",
+        "type": "inject",
+        "z": "d80aa2e8.82bcd8",
+        "name": "Cancel Order",
+        "topic": "",
+        "payload": "{\"$class\":\"org.acme.vehicle_network.CancelOrder\",\"order\":\"org.acme.vehicle_network.Order#104\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 120,
+        "y": 80,
+        "wires": [
+            [
+                "d9457e27.4ab01"
+            ]
+        ]
+    },
+    {
+        "id": "d9457e27.4ab01",
+        "type": "http request",
+        "z": "d80aa2e8.82bcd8",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "url": "http://localhost:3000/api/org.acme.vehicle_network.CancelOrder",
+        "tls": "",
+        "x": 330,
+        "y": 80,
+        "wires": [
+            [
+                "de247a4e.03a59"
+            ]
+        ]
+    },
+    {
+        "id": "de247a4e.03a59",
+        "type": "debug",
+        "z": "d80aa2e8.82bcd8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 550,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "d84028c3.aec498",
+        "type": "comment",
+        "z": "d80aa2e8.82bcd8",
+        "name": "Invoke Transaction",
+        "info": "",
+        "x": 290,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "1f606366.4e73c5",
+        "type": "comment",
+        "z": "d80aa2e8.82bcd8",
+        "name": "Capture Events",
+        "info": "",
+        "x": 300,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "a17028ac.be9388",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "ws://localhost:3000",
+        "wholemsg": "false"
+    }
+]

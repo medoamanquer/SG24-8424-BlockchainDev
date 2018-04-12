@@ -1,0 +1,21 @@
+{
+  "name": "random-number-api",
+  "version": "1.0.0",
+  "description": "API to generate a random number",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "random"
+  ],
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
+  "author": "Aldred Benedict",
+  "license": "ISC",
+  "dependencies": {
+  }
+}

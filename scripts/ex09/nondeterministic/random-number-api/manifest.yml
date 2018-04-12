@@ -1,0 +1,8 @@
+applications:
+- path: .
+  memory: 128M
+  instances: 1
+  domain: mybluemix.net
+  name: random-number-api
+  host: random-number-api
+  disk_quota: 1G
