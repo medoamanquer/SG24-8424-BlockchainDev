@@ -21,14 +21,12 @@
  * @transaction
  */
 function placeOrder(orderRequest) {
+  	console.log('placeOrder')
   
   	var factory = getFactory();
   	var namespace = 'org.acme.vehicle_network';
-   
-  
-  	var order = factory.newResource(namespace, 'Order', orderRequest.order.orderId);
-    
-    order = orderRequest.order; //in this, user will enter order ID, order status, vehicle ID, owner ID
+ 
+  var order = orderRequest.order;
 
     // save the order
     return getAssetRegistry(order.getFullyQualifiedType())
@@ -39,12 +37,10 @@ function placeOrder(orderRequest) {
       // emit the event
       var placeOrderEvent = factory.newEvent(namespace, 'PlaceOrderEvent');
       placeOrderEvent.order = order;
-      
+     
       emit(placeOrderEvent);
-      
     });
 }
-
 
 /**
  * Update the status of an order
