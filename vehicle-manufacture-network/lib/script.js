@@ -24,7 +24,7 @@ function placeOrder(orderRequest) {
   
   	var factory = getFactory();
   	var namespace = 'org.acme.vehicle_network';
-    var url = 'https://blockchainintegrationtest.eu-gb.mybluemix.net/compute';
+   
   
   	var order = factory.newResource(namespace, 'Order', orderRequest.order.orderId);
     
@@ -41,9 +41,7 @@ function placeOrder(orderRequest) {
       placeOrderEvent.order = order;
       
       emit(placeOrderEvent);
-      return post( url,order )
-    }).then(function (result) {
-				
+      
     });
 }
 
