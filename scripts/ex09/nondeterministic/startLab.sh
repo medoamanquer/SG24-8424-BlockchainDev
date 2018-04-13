@@ -4,7 +4,7 @@ echo "Starting Fabric Network..."
 ./byfn.sh -m up -a
 
 echo "Import PeerAdmin Card"
-composer card import -f composer-artifacts/PeerAdmin\@byfn-network-org1.card --name PeerAdmin@byfn-network-org1
+composer card import -f composer-artifacts/PeerAdmin\@byfn-network-org1.card --card PeerAdmin@byfn-network-org1
 
 echo "Import Business Network Admin Card"
 composer card import -f composer-artifacts/alice\@nondeterministic-network.card
@@ -15,14 +15,12 @@ npm run prepublish
 cd ..
 
 echo "Install Business Network"
-##This is for v0.19.0
-#composer network install -a nondeterministic-network/dist/nondeterministic-network.bna -c PeerAdmin@byfn-network-org1
-composer runtime install --card PeerAdmin@byfn-network-org1 --businessNetworkName nondeterministic-network
+composer network install -a nondeterministic-network/dist/nondeterministic-network.bna -c PeerAdmin@byfn-network-org1
+#composer runtime install --card PeerAdmin@byfn-network-org1 --businessNetworkName nondeterministic-network
 
 echo "Start Business Network"
-##This is for v0.19.0
-#composer network start -c PeerAdmin@byfn-network-org1 -n nondeterministic-network -V 0.1.2 -o endorsementPolicyFile=composer-artifacts/endorsement-policy.json -A alice -C composer-artifacts/alice/admin-pub.pem
-composer network start --card PeerAdmin@byfn-network-org1 --archiveFile nondeterministic-network/dist/nondeterministic-network.bna -o endorsementPolicyFile=composer-artifacts/endorsement-policy.json -A alice -C composer-artifacts/alice/admin-pub.pem
+composer network start -c PeerAdmin@byfn-network-org1 -n nondeterministic-network -V 0.1.2 -o endorsementPolicyFile=composer-artifacts/endorsement-policy.json -A alice -C composer-artifacts/alice/admin-pub.pem
+#composer network start --card PeerAdmin@byfn-network-org1 --archiveFile nondeterministic-network/dist/nondeterministic-network.bna -o endorsementPolicyFile=composer-artifacts/endorsement-policy.json -A alice -C composer-artifacts/alice/admin-pub.pem
 
 echo "Start REST Server"
 composer-rest-server -c alice@nondeterministic-network -n always -w true
