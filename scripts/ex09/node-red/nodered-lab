@@ -40,7 +40,7 @@
         "type": "function",
         "z": "5f244cf0.ee2294",
         "name": "Format Message",
-        "func": "const e = JSON.parse(msg.payload);\nlet eventName = e.$class.split('.')[3];\n\nif (eventName === 'InspectVehicleEvent') {\n    let isImportable = '';\n    if (e.isImportable) {\n        isImportable = 'FIT FOR IMPORT';\n    } else {\n        isImportable = 'NOT FIT FOR IMPORT';\n    }\n    vehicle = e.vehicle.split('#')[1];\n    timestamp = new Date(e.timestamp);\n    msg.payload = `${eventName}: Vehicle with VIN Number ${vehicle} is declared ${isImportable} on ${timestamp.toDateString()}`;\n}\nreturn msg;",
+        "func": "const e = JSON.parse(msg.payload);\nlet eventName = e.$class.split('.')[3];\n\nif (eventName === 'InspectVehicleEvent') {\n    let isImportable = '';\n    if (e.isImportable) {\n        isImportable = 'FIT FOR IMPORT';\n    } else {\n        isImportable = 'NOT FIT FOR IMPORT';\n    }\n    vehicle = e.vehicle.vin;\n    timestamp = new Date(e.timestamp);\n    msg.payload = `${eventName}: Vehicle with VIN Number ${vehicle} is declared ${isImportable} on ${timestamp.toDateString()}`;\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 383,
