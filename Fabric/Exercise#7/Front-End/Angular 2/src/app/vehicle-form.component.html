@@ -1,0 +1,45 @@
+<div class = "container">
+   <h1> Create Vehicle </h1>
+   <form>
+      <div class = "form-group">
+         <label for = "vehicleid">ID</label>
+         <input type = "text" class = "form-control" id = "vehicleid" required
+            [(ngModel)] = "model.id" name = "id">
+      </div>
+      
+      <div class = "form-group">
+         <label for = "model">Model Type</label>
+         <input type = "text" class = "form-control" id = "model"
+            [(ngModel)] = "model.modelType" name = "model">
+      </div>
+
+      <div class = "form-group">
+         <label for = "colour">Colour</label>
+         <input type = "text" class = "form-control" id = "colour"
+            [(ngModel)] = "model.colour" name = "colour">
+      </div>
+
+      <div class = "form-group">
+         <label for = "time">Time Stamp</label>
+         <input type = "text" class = "form-control" id = "time"
+            [(ngModel)] = "model.timestamp" name = "time">
+      </div>
+
+      <div class = "form-group">
+         <label for = "location">Location</label>
+         <input type = "text" class = "form-control" id = "location"
+            [(ngModel)] = "model.location" name = "location">
+      </div>
+
+      <div class = "form-group">
+         <label for = "model">Owner</label>
+         <input type = "text" class = "form-control" id = "owner"
+            [(ngModel)] = "model.owner" name = "owner">
+      </div>
+       
+
+       <button type="button" class="btn btn-default" (click)="saveVehicle();">Save </button>
+       {{ transactionId }}
+   </form>
+</div>
+
