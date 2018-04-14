@@ -6,7 +6,7 @@ cd ~/fabric-tools
 ./startFabric.sh
 sleep 5
 
-printf "\nCreating Environment..\n"
+printf "\nCreating Peer Admin Card..\n"
 ./createPeerAdminCard.sh
 cd ~/Blockchain_Redbook_Application/vehicle-manufacture-network/
 npm run prepublish

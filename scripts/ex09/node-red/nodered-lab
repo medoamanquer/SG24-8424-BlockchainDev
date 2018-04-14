@@ -1,15 +1,15 @@
 [
     {
-        "id": "a7146f7b.5571f",
+        "id": "d80aa2e8.82bcd8",
         "type": "tab",
         "label": "Exercise 09",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "bad921e6.08a33",
+        "id": "9572e442.cb2728",
         "type": "websocket in",
-        "z": "a7146f7b.5571f",
+        "z": "d80aa2e8.82bcd8",
         "name": "",
         "server": "a17028ac.be9388",
         "client": "",
@@ -17,14 +17,14 @@
         "y": 299,
         "wires": [
             [
-                "3f228f51.733f98"
+                "8b0ef43c.718788"
             ]
         ]
     },
     {
-        "id": "aee9808.0f9f8",
+        "id": "bf8ffd28.948ae",
         "type": "debug",
-        "z": "a7146f7b.5571f",
+        "z": "d80aa2e8.82bcd8",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -36,19 +36,20 @@
         "wires": []
     },
     {
-        "id": "3f228f51.733f98",
+        "id": "8b0ef43c.718788",
         "type": "function",
-        "z": "a7146f7b.5571f",
+        "z": "d80aa2e8.82bcd8",
         "name": "Format Message",
-        "func": "const e = JSON.parse(msg.payload);\nlet eventName = e.$class.split('.')[3];\n\nif (eventName === 'CancelOrderEvent') {\n    orderStatus = e.orderStatus;\n    orderId = e.order.orderId;\n    vehicle = e.order.vehicle.split('#')[1];\n    owner = e.order.owner.split('#')[1];\n    timestamp = new Date(e.timestamp);\n    msg.payload = `${eventName}: Order ${orderId} with VIN Number ${vehicle} and Owner ${owner} is ${orderStatus} on ${timestamp.toDateString()}`;\n}\nreturn msg;",
+        "func": "const e = JSON.parse(msg.payload);\nlet eventName = e.$class.split('.')[3];\n\nif (eventName === 'InspectVehicleEvent') {\n    let isImportable = '';\n    if (e.isImportable) {\n        isImportable = 'FIT FOR IMPORT';\n    } else {\n        isImportable = 'NOT FIT FOR IMPORT';\n    }\n    vehicle = e.vehicle.split('#')[1];\n    timestamp = new Date(e.timestamp);\n    msg.payload = `${eventName}: Vehicle with VIN Number ${vehicle} is declared ${isImportable} on ${timestamp.toDateString()}`;\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 383,
         "y": 299,
         "wires": [
             [
-                "aee9808.0f9f8",
-                "37ee8dc3.83160a"
+                "bf8ffd28.948ae",
+                "25bf198f.dec7e6",
+                "cda62845.9bb9"
             ]
         ],
         "inputLabels": [
@@ -56,9 +57,9 @@
         ]
     },
     {
-        "id": "37ee8dc3.83160a",
+        "id": "25bf198f.dec7e6",
         "type": "file",
-        "z": "a7146f7b.5571f",
+        "z": "d80aa2e8.82bcd8",
         "name": "Event Storage",
         "filename": "/tmp/events",
         "appendNewline": true,
@@ -72,46 +73,46 @@
         ]
     },
     {
-        "id": "61864973.328b3",
+        "id": "36898394.19f884",
         "type": "inject",
-        "z": "a7146f7b.5571f",
-        "name": "Cancel Order",
+        "z": "d80aa2e8.82bcd8",
+        "name": "Inspect Vehicle",
         "topic": "",
-        "payload": "{\"$class\":\"org.acme.vehicle_network.CancelOrder\",\"order\":\"org.acme.vehicle_network.Order#104\"}",
+        "payload": "{\"$class\":\"org.acme.vehicle_network.InspectVehicle\",\"order\":\"org.acme.vehicle_network.Vehicle#80KH\"}",
         "payloadType": "json",
         "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 110,
+        "x": 120,
         "y": 80,
         "wires": [
             [
-                "8a8f21ef.63f09"
+                "d9457e27.4ab01"
             ]
         ]
     },
     {
-        "id": "8a8f21ef.63f09",
+        "id": "d9457e27.4ab01",
         "type": "http request",
-        "z": "a7146f7b.5571f",
+        "z": "d80aa2e8.82bcd8",
         "name": "",
         "method": "POST",
         "ret": "obj",
-        "url": "http://localhost:3000/api/org.acme.vehicle_network.CancelOrder",
+        "url": "http://localhost:3000/api/org.acme.vehicle_network.InspectVehicle",
         "tls": "",
         "x": 330,
         "y": 80,
         "wires": [
             [
-                "5f16a032.6a5488"
+                "de247a4e.03a59"
             ]
         ]
     },
     {
-        "id": "5f16a032.6a5488",
+        "id": "de247a4e.03a59",
         "type": "debug",
-        "z": "a7146f7b.5571f",
+        "z": "d80aa2e8.82bcd8",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -123,9 +124,9 @@
         "wires": []
     },
     {
-        "id": "dbcaee07.c1a2a8",
+        "id": "d84028c3.aec498",
         "type": "comment",
-        "z": "a7146f7b.5571f",
+        "z": "d80aa2e8.82bcd8",
         "name": "Invoke Transaction",
         "info": "",
         "x": 290,
@@ -133,13 +134,23 @@
         "wires": []
     },
     {
-        "id": "a9db858a.88503",
+        "id": "1f606366.4e73c5",
         "type": "comment",
-        "z": "a7146f7b.5571f",
+        "z": "d80aa2e8.82bcd8",
         "name": "Capture Events",
         "info": "",
         "x": 300,
         "y": 380,
+        "wires": []
+    },
+    {
+        "id": "cda62845.9bb9",
+        "type": "twitter out",
+        "z": "d80aa2e8.82bcd8",
+        "twitter": "",
+        "name": "Tweet",
+        "x": 470,
+        "y": 480,
         "wires": []
     },
     {
