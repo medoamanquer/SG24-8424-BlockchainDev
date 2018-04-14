@@ -1,15 +1,15 @@
 [
     {
-        "id": "d80aa2e8.82bcd8",
+        "id": "5f244cf0.ee2294",
         "type": "tab",
         "label": "Exercise 09",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "9572e442.cb2728",
+        "id": "6c0d5167.f656d",
         "type": "websocket in",
-        "z": "d80aa2e8.82bcd8",
+        "z": "5f244cf0.ee2294",
         "name": "",
         "server": "a17028ac.be9388",
         "client": "",
@@ -17,14 +17,14 @@
         "y": 299,
         "wires": [
             [
-                "8b0ef43c.718788"
+                "675c1f40.ae8d3"
             ]
         ]
     },
     {
-        "id": "bf8ffd28.948ae",
+        "id": "98a1793b.b6434",
         "type": "debug",
-        "z": "d80aa2e8.82bcd8",
+        "z": "5f244cf0.ee2294",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -36,9 +36,9 @@
         "wires": []
     },
     {
-        "id": "8b0ef43c.718788",
+        "id": "675c1f40.ae8d3",
         "type": "function",
-        "z": "d80aa2e8.82bcd8",
+        "z": "5f244cf0.ee2294",
         "name": "Format Message",
         "func": "const e = JSON.parse(msg.payload);\nlet eventName = e.$class.split('.')[3];\n\nif (eventName === 'InspectVehicleEvent') {\n    let isImportable = '';\n    if (e.isImportable) {\n        isImportable = 'FIT FOR IMPORT';\n    } else {\n        isImportable = 'NOT FIT FOR IMPORT';\n    }\n    vehicle = e.vehicle.split('#')[1];\n    timestamp = new Date(e.timestamp);\n    msg.payload = `${eventName}: Vehicle with VIN Number ${vehicle} is declared ${isImportable} on ${timestamp.toDateString()}`;\n}\nreturn msg;",
         "outputs": 1,
@@ -47,9 +47,8 @@
         "y": 299,
         "wires": [
             [
-                "bf8ffd28.948ae",
-                "25bf198f.dec7e6",
-                "cda62845.9bb9"
+                "98a1793b.b6434",
+                "30a8a622.f3041a"
             ]
         ],
         "inputLabels": [
@@ -57,9 +56,9 @@
         ]
     },
     {
-        "id": "25bf198f.dec7e6",
+        "id": "30a8a622.f3041a",
         "type": "file",
-        "z": "d80aa2e8.82bcd8",
+        "z": "5f244cf0.ee2294",
         "name": "Event Storage",
         "filename": "/tmp/events",
         "appendNewline": true,
@@ -73,12 +72,12 @@
         ]
     },
     {
-        "id": "36898394.19f884",
+        "id": "a3faed66.ee62",
         "type": "inject",
-        "z": "d80aa2e8.82bcd8",
+        "z": "5f244cf0.ee2294",
         "name": "Inspect Vehicle",
         "topic": "",
-        "payload": "{\"$class\":\"org.acme.vehicle_network.InspectVehicle\",\"order\":\"org.acme.vehicle_network.Vehicle#80KH\"}",
+        "payload": "{\"$class\":\"org.acme.vehicle_network.InspectVehicle\",\"vehicle\":\"org.acme.vehicle_network.Vehicle#71QR\"}",
         "payloadType": "json",
         "repeat": "",
         "crontab": "",
@@ -88,14 +87,14 @@
         "y": 80,
         "wires": [
             [
-                "d9457e27.4ab01"
+                "66157f4e.c57078"
             ]
         ]
     },
     {
-        "id": "d9457e27.4ab01",
+        "id": "66157f4e.c57078",
         "type": "http request",
-        "z": "d80aa2e8.82bcd8",
+        "z": "5f244cf0.ee2294",
         "name": "",
         "method": "POST",
         "ret": "obj",
@@ -105,14 +104,14 @@
         "y": 80,
         "wires": [
             [
-                "de247a4e.03a59"
+                "4fe888ef.b54fa"
             ]
         ]
     },
     {
-        "id": "de247a4e.03a59",
+        "id": "4fe888ef.b54fa",
         "type": "debug",
-        "z": "d80aa2e8.82bcd8",
+        "z": "5f244cf0.ee2294",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -124,9 +123,9 @@
         "wires": []
     },
     {
-        "id": "d84028c3.aec498",
+        "id": "9f4da3b7.1951a8",
         "type": "comment",
-        "z": "d80aa2e8.82bcd8",
+        "z": "5f244cf0.ee2294",
         "name": "Invoke Transaction",
         "info": "",
         "x": 290,
@@ -134,23 +133,13 @@
         "wires": []
     },
     {
-        "id": "1f606366.4e73c5",
+        "id": "d81e7eb2.844db8",
         "type": "comment",
-        "z": "d80aa2e8.82bcd8",
+        "z": "5f244cf0.ee2294",
         "name": "Capture Events",
         "info": "",
         "x": 300,
         "y": 380,
-        "wires": []
-    },
-    {
-        "id": "cda62845.9bb9",
-        "type": "twitter out",
-        "z": "d80aa2e8.82bcd8",
-        "twitter": "",
-        "name": "Tweet",
-        "x": 470,
-        "y": 480,
         "wires": []
     },
     {
