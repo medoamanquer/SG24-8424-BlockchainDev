@@ -23,6 +23,7 @@
 
 
 const BusinessNetworkConnection = require('composer-client').BusinessNetworkConnection;
+
 const Table = require('cli-table');
 const winston = require('winston');
 let config = require('config').get('businessNetworkIdentifier');
@@ -133,25 +134,6 @@ class VehicleManufacturerNetwork
         let ordererPerson = factory.newRelationship('org.acme.vehicle_network', 'Person', 'username:person103');
         assetOrder.owner = ordererPerson;
 
-/////////////////////////////////////////////////CREATING 1 ORDER ASSET USING PLACE ORDER TRANSACTION /////////////////////////////////
-LOG.info('VehicleManufacturerNetwork', 'Creating place order transaction');
-
-
-var assetOrder2 = factory.newResource('org.acme.vehicle_network', 'Order', 'orderId:order104');
-        
-assetOrder2.orderStatus = "PLACED";
-
-
-let vehicleRelationship2 = factory.newRelationship('org.acme.vehicle_network', 'Vehicle', 'vin:vehicle104');
-assetOrder2.vehicle = vehicleRelationship2;
-
-let ordererPerson2 = factory.newRelationship('org.acme.vehicle_network', 'Person', 'username:person104');
-assetOrder2.owner = ordererPerson2;
-
-
-var placeOrderTransaction = factory.newTransaction('org.acme.vehicle_network', 'PlaceOrder');
-placeOrderTransaction.order = assetOrder2;
-
 /////////////////////////////////////////////////////////////////////////////
 return this.bizNetworkConnection.getParticipantRegistry('org.acme.vehicle_network.Person')
       .then((personRegistry) => {
@@ -175,18 +157,14 @@ return this.bizNetworkConnection.getParticipantRegistry('org.acme.vehicle_networ
       .then((assetRegistry) => {
           return assetRegistry.add(assetOrder);
     })
-    .then(() => {
-        return this.bizNetworkConnection.submitTransaction(placeOrderTransaction);
-    }).catch(function (error) {
+    .catch(function (error) {
           console.log(error);
           LOG.error('VehicleManufacturerNetwork:_bootstrapTitles', error);
           throw error;
       });
 
     }
-    
-    
-    
+
 /**
    * @description - run the add default assets command
    * @param {Object} args passed from the command line
@@ -213,11 +191,14 @@ return this.bizNetworkConnection.getParticipantRegistry('org.acme.vehicle_networ
       });
     }
 
- 
+  
 }
+
+
 module.exports = VehicleManufacturerNetwork;
 
 VehicleManufacturerNetwork.addDefaultCmd();
+
 
 
 
