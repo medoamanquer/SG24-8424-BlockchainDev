@@ -44,7 +44,7 @@ out
 
 *.swp
 
-# Ignore .bna files
-*.bna
+# Build generated files should be ignored by git, but not by npm.
+dist
 
 node_modules
