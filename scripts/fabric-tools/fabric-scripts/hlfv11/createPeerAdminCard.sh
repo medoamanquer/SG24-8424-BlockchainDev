@@ -51,15 +51,15 @@ COMPOSER_VERSION=$("${HL_COMPOSER_CLI}" --version 2>/dev/null)
 COMPOSER_RC=$?
 
 if [ $COMPOSER_RC -eq 0 ]; then
-    AWKRET=$(echo $COMPOSER_VERSION | awk -F. '{if ($2<17) print "1"; else print "0";}')
+    AWKRET=$(echo $COMPOSER_VERSION | awk -F. '{if ($2<19) print "1"; else print "0";}')
     if [ $AWKRET -eq 1 ]; then
-        echo Cannot use $COMPOSER_VERSION version of composer with this level of fabric
+        echo Cannot use $COMPOSER_VERSION version of composer with fabric 1.1, v0.19 or higher is required
         exit 1
     else
         echo Using composer-cli at $COMPOSER_VERSION
     fi
 else
-    echo 'Need to have composer-cli installed at v0.17 or greater'
+    echo 'No version of composer-cli has been detected, you need to install composer-cli at v0.19 or higher'
     exit 1
 fi
 
@@ -135,8 +135,8 @@ fi
 "${HL_COMPOSER_CLI}"  card create -p DevServer_connection.json -u PeerAdmin -c "${CERT}" -k "${PRIVATE_KEY}" -r PeerAdmin -r ChannelAdmin --file $CARDOUTPUT
 
 if [ "${NOIMPORT}" != "true" ]; then
-    if "${HL_COMPOSER_CLI}"  card list -n PeerAdmin@hlfv1 > /dev/null; then
-        "${HL_COMPOSER_CLI}"  card delete -n PeerAdmin@hlfv1
+    if "${HL_COMPOSER_CLI}"  card list -c PeerAdmin@hlfv1 > /dev/null; then
+        "${HL_COMPOSER_CLI}"  card delete -c PeerAdmin@hlfv1
     fi
 
     "${HL_COMPOSER_CLI}"  card import --file /tmp/PeerAdmin@hlfv1.card 
