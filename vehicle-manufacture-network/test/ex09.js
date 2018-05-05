@@ -26,7 +26,7 @@ chai.use(require('chai-as-promised'));
 const namespace = 'org.acme.vehicle_network';
 const vin = '1a2b3c4d5e6f7g8h9';
 
-describe('EX03-Test', () => {
+describe('EX09-Test', () => {
     const cardStore = require('composer-common').NetworkCardStoreManager.getCardStore( { type: 'composer-wallet-inmemory' } );
     let adminConnection;
     let businessNetworkConnection;
@@ -52,7 +52,7 @@ describe('EX03-Test', () => {
         const deployerCard = new IdCard(deployerMetadata, connectionProfile);
         deployerCard.setCredentials(credentials);
 
-        const deployerCardName = 'PeerAdmin';
+        const deployerCardName = 'PeerAdminEx09';
         adminConnection = new AdminConnection({ cardStore: cardStore });
 
         await adminConnection.importCard(deployerCardName, deployerCard);
@@ -97,7 +97,7 @@ describe('EX03-Test', () => {
     });
 
     describe('InspectVehicle', () => {
-        it('should be able to mark a vehicle manufactured older than 2020 as not importable', async () => {
+        it('should be able to emit an event', async () => {
 
             // create the manufacturer
             const manufacturer = factory.newResource(namespace, 'Manufacturer', 'Arium');
@@ -128,40 +128,8 @@ describe('EX03-Test', () => {
             const v = await vr.get(vehicle.$identifier);
 
             v.isImportable.should.equal(false);
-        });
-
-        it('should be able to mark a vehicle manufactured newer than 2020 as importable', async () => {
-
-            // create the manufacturer
-            const manufacturer = factory.newResource(namespace, 'Manufacturer', 'Arium');
-            manufacturer.name = 'Arium';
-
-            const manufacturerRegistry = await businessNetworkConnection.getParticipantRegistry(namespace + '.Manufacturer');
-            await manufacturerRegistry.add(manufacturer);
-
-          
-            // create the vehicle
-            const vehicle = factory.newResource(namespace, 'Vehicle', vin);
-            vehicle.make = factory.newRelationship(namespace, 'Manufacturer', manufacturer.$identifier);
-            vehicle.trim = 'trim';
-            vehicle.interior = 'int';
-            vehicle.extras = ['none'];
-            vehicle.modelType = 'model';
-            vehicle.colour = 'red';
-            vehicle.yearOfManufacture = 2023;
-
-            const vehicleRegistry = await businessNetworkConnection.getAssetRegistry(namespace + '.Vehicle');
-            await vehicleRegistry.add(vehicle);
-
-            const inspectVehicleTx = factory.newTransaction(namespace, 'InspectVehicle');
-            inspectVehicleTx.vehicle = factory.newRelationship(namespace, 'Vehicle', vehicle.$identifier);
-
-            await businessNetworkConnection.submitTransaction(inspectVehicleTx);
-
-            const vr = await businessNetworkConnection.getAssetRegistry(namespace + '.Vehicle');
-            const v = await vr.get(vehicle.$identifier);
-
-            v.isImportable.should.equal(true);
+            events[0].vehicle.vin.should.equal(vin);
+            events[0].isImportable.should.equal(false);
         });
     });
 });
