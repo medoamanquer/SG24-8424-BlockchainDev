@@ -68,4 +68,22 @@ services:
     environment:
       DB_URL: http://localhost:5984/member_db
 
-
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools:x86_64-1.1.0
+    tty: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_LOGGING_LEVEL=debug
+      - CORE_PEER_ID=cli
+      - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
+      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_PEER_MSPCONFIGPATH=/root/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/
+      - CORE_CHAINCODE_KEEPALIVE=10
+    working_dir: /root
+    command: /bin/bash
+    volumes:
+        - /var/run/:/host/var/run/
+        - ~/Blockchain_Redbook_Application/Fabric/:/opt/gopath/src/
+	- ./crypto-config:/root/crypto
