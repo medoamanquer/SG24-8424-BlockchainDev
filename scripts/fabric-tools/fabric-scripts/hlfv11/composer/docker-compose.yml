@@ -84,6 +84,6 @@ services:
     working_dir: /root
     command: /bin/bash
     volumes:
-        - /var/run/:/host/var/run/
-        - ~/Blockchain_Redbook_Application/Fabric/:/opt/gopath/src/
-	- ./crypto-config:/root/crypto
+      - /var/run/:/host/var/run/
+      - ~/Blockchain_Redbook_Application/Fabric/:/opt/gopath/src/
+      - ./crypto-config:/root/crypto
