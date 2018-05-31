@@ -258,27 +258,7 @@ return{
 		    console.error('Failed to query successfully :: ' + err);
 		    res.send("Could not find Vehicle")
 		});
-	},
-changeOwner : function(req, res){
-// add step 5 here 
-
-// add step 6 here 
-
-// add step 7 here 
-
-// add step 8 here
-
-// add step 9 here
-
-// add step 10 here 
-
-// add step 11 here 
-
-// add step 12 here 
-
-// add step 13 here
-
-}
+	}
 
 
 }
