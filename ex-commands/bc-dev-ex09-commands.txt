@@ -1,0 +1,238 @@
+=================
+Section 9.3.1
+=================
+
+docker ps 
+
+**** Note *****
+cd ~/fabric-tools
+
+./teardownFabric.sh
+****************
+
+docker ps -a
+
+**** Note *****
+docker rm $(docker ps -qa)
+***************
+composer card list
+
+**** Note *****
+composer card delete --card admin@vehicle-manufacture-network
+
+composer card delete --card PeerAdmin@hlfv1
+****************
+
+cd ~/Blockchain_Redbook_Application/vehicle-manufacture-network/
+
+cat package.json | grep version
+
+**** NOTE:  IF no Ex03 (version not 0.2.5) ***
+cd ~/Blockchain_Redbook_Application/scripts/ex03
+
+./copyBnaFilesOnly.sh
+
+cd ~/Blockchain_Redbook_Application/vehicle-manufacture-network/
+cat package.json | grep version
+***************
+cd ~/Blockchain_Redbook_Application/scripts/ex09
+
+./startVehicleManufactureSampleEx09.sh
+
+=================
+Section 9.3.2
+=================
+
+composer-rest-server -c admin@vehicle-manufacture-network -n always -w true
+
+cd ~/Blockchain_Redbook_Application/scripts/ex09/events/
+
+./populateDataEx09.sh
+
+composer-playground
+
+STEP 4 Clear instructions
+Follow steps
+<< Ex03 1.3.9 >>
+
+"vehicle": "org.acme.vehicle_network.Vehicle#80KH"
+
+
+=================
+Section 9.3.3
+=================
+
+cd ~/Blockchain_Redbook_Application/vehicle-manufacture-network/models
+
+code org.acme.vehicle_network.cto
+
+event InspectVehicleEvent {
+o Vehicle vehicle
+o Boolean isImportable
+}
+
+
+cd ~/Blockchain_Redbook_Application/vehicle-manufacture-network/lib
+
+code script.js
+
+/**
+* Inspect the vehicle's manufacture date to deem whether it is importable
+* @param {org.acme.vehicle_network.InspectVehicle} inspecVehicle - the InspectVehicle transaction
+* @transaction
+*/
+function inspectVehicle(inspectVehicleRequest) {
+console.log('inspectVehicle');
+
+var factory = getFactory();
+var namespace = 'org.acme.vehicle_network';
+var vr;
+var v;
+
+return getAssetRegistry(namespace + '.Vehicle')
+.then(function(vehicleRegistry) {
+vr = vehicleRegistry;
+return vehicleRegistry.get(inspectVehicleRequest.vehicle.getIdentifier())
+})
+.then(function(vehicle) {
+if (vehicle.yearOfManufacture < 2020) {
+vehicle.isImportable = false;
+} else {
+vehicle.isImportable = true;
+}
+v = vehicle;
+return vr.update(vehicle);
+})
+.then(function() {
+// emit the event
+var inspectVehicleEvent = factory.newEvent(namespace, 'InspectVehicleEvent');
+inspectVehicleEvent.vehicle = v;
+inspectVehicleEvent.isImportable = v.isImportable;
+emit(inspectVehicleEvent);
+});
+}
+
+***
+
+cd ~/Blockchain_Redbook_Application/vehicle-manufacture-network/
+
+code package.json
+
+cd ~/Blockchain_Redbook_Application/vehicle-manufacture-network/
+
+npm run prepublish
+
+composer network install -a dist/vehicle-manufacture-network.bna -c PeerAdmin@hlfv1
+
+composer network upgrade -n vehicle-manufacture-network -V 0.2.6 -c PeerAdmin@hlfv1
+
+composer-rest-server -c admin@vehicle-manufacture-network -n always -w true
+
+composer-playground
+
+=================
+Section 9.3.4
+=================
+wscat -c ws://localhost:3000
+
+"vehicle": "org.acme.vehicle_network.Vehicle#81AB"
+
+
+=================
+Section 9.3.5
+=================
+
+node-red
+
+cd ~/Blockchain_Redbook_Application/scripts/ex09/node-red/ 
+
+gedit nodered-lab
+
+
+cat /tmp/events
+
+
+=================
+Section 9.3.6
+=================
+
+cd ~/Blockchain_Redbook_Application/scripts/ex09
+
+./stopVehicleManufactureSampleEx09.sh
+
+docker ps -a 
+
+docker rm $(docker ps -qa)
+
+=================
+Section 9.3.7
+=================
+
+cd ~/Blockchain_Redbook_Application/scripts/ex09/nondeterministic/nondeterministic-network/models/
+
+code org.nondeterministic.cto 
+
+cd ~/Blockchain_Redbook_Application/scripts/ex09/nondeterministic/nondeterministic-network/lib/
+
+code script.js 
+
+cd ~/Blockchain_Redbook_Application/scripts/ex09/nondeterministic/composer-artifacts/
+
+code endorsement-policy.json
+
+=================
+Section 9.3.8
+=================
+cd ~/Blockchain_Redbook_Application/scripts/ex09/nondeterministic
+
+./byfn.sh -m up -a
+
+docker ps --format "table {{.Image}}\t{{.Names}}"
+
+curl -X GET http://localhost:2000/random
+
+cd ~/Blockchain_Redbook_Application/scripts/ex09/nondeterministic
+
+composer card import -f composer-artifacts/PeerAdmin\@byfn-network-org1.card --card PeerAdmin@byfn-network-org1
+
+composer card import -f composer-artifacts/alice\@nondeterministic-network.card
+
+cd ~/Blockchain_Redbook_Application/scripts/ex09/nondeterministic/nondeterministic-network/
+
+npm run prepublish
+
+cd ~/Blockchain_Redbook_Application/scripts/ex09/nondeterministic
+
+composer network install -a nondeterministic-network/dist/nondeterministic-network.bna -c PeerAdmin@byfn-network-org1
+
+cd ~/Blockchain_Redbook_Application/scripts/ex09/nondeterministic
+
+composer network start -c PeerAdmin@byfn-network-org1 -n nondeterministic-network -V 0.1.2 -o endorsementPolicyFile=composer-artifacts/endorsement-policy.json -A alice -C composer-artifacts/alice/admin-pub.pem
+
+cd ~/Blockchain_Redbook_Application/scripts/ex09/nondeterministic
+
+rm alice@nondeterministic-network.card
+
+composer-rest-server -c alice@nondeterministic-network -n always -w true
+
+
+=================
+Section 9.3.9
+=================
+
+docker logs -f --since $(date --rfc-3339=seconds | sed 's/ /T/')  dev-peer0.org1.example.com-nondeterministic-network-0.1.2 2>&1 | grep @debug
+
+docker logs -f --since $(date --rfc-3339=seconds | sed 's/ /T/')  dev-peer1.org1.example.com-nondeterministic-network-0.1.2 2>&1 | grep @debug
+
+curl -X POST -m 500 --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"$class":"org.nondeterministic.Stock","id": "CONGO", "price": 500}' 'http://localhost:3000/api/org.nondeterministic.Stock'
+
+curl -X POST -m 500 --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"$class": "org.nondeterministic.CreateStock","stockId": "IBM"}' 'http://localhost:3000/api/org.nondeterministic.CreateStock'
+
+=================
+Section 9.3.10
+=================
+
+cd ~/Blockchain_Redbook_Application/scripts/ex09/nondeterministic
+
+./stopLab.sh
+

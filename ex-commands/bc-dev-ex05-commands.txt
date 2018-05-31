@@ -1,0 +1,220 @@
+===============
+Section 5.3.1
+===============
+**** BEFORE YOU BEGIN ****
+docker rm -f $(docker ps -aq)
+
+docker volume rm $(docker volume ls -q)
+
+docker system prune -f 
+
+cd ~/fabric-samples/first-network/
+
+./byfn.sh down
+**************************
+
+
+cd ~/fabric-samples/first-network
+
+./byfn.sh up
+
+./byfn.sh down
+
+docker rm -f $(docker ps -aq)
+
+docker volume rm $(docker volume ls -q)
+
+docker system prune -f
+
+docker rmi -f $(docker images|awk '($1 ~ /dev-peer.*.mycc.*/) {print $3}')
+
+===============
+Section 5.3.2
+===============
+gedit ~/fabric-samples/first-network/crypto-config.yaml
+
+cd ~/fabric-samples/first-network
+
+sudo rm -r channel-artifacts && rm -r crypto-config
+
+mkdir channel-artifacts
+
+export FABRIC_CFG_PATH=$PWD
+
+cryptogen generate --config=./crypto-config.yaml
+
+cp docker-compose-e2e-template.yaml docker-compose-e2e.yaml
+
+export CURRENT_DIR=$PWD
+
+cd crypto-config/peerOrganizations/org1.example.com/ca/
+
+export PRIV_KEY=$(ls *_sk)
+
+echo $PRIV_KEY
+
+cd "$CURRENT_DIR"
+
+sed -i "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
+
+cd crypto-config/peerOrganizations/org2.example.com/ca/
+
+export PRIV_KEY=$(ls *_sk)
+
+echo $PRIV_KEY
+
+cd "$CURRENT_DIR"
+
+sed -i "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
+
+gedit docker-compose-e2e.yaml
+
+
+===============
+Section 5.3.3
+===============
+
+cd ~/fabric-samples/first-network
+
+gedit configtx.yaml
+
+cd ~/fabric-samples/first-network
+
+export FABRIC_CFG_PATH=$PWD
+
+configtxgen -profile TwoOrgsOrdererGenesis -outputBlock ./channel-artifacts/genesis.block
+
+configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID mychannel
+
+configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID mychannel -asOrg Org1MSP
+
+configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org2MSPanchors.tx -channelID mychannel -asOrg Org2MSP
+
+configtxlator proto_decode --type=common.Block --input=./channel-artifacts/genesis.block --output=./channel-artifacts/genesis.json
+
+/home/user/fabric-samples/first-network/channel-artifacts/genesis.json
+
+===============
+Section 5.3.4
+===============
+
+cd ~/fabric-samples/first-network
+
+docker-compose -f docker-compose-cli.yaml up -d
+
+docker ps
+
+docker exec -it cli bash
+
+peer channel create -o orderer.example.com:7050 -c mychannel -f ./channel-artifacts/channel.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+
+ls
+
+peer channel join -b mychannel.block
+
+peer channel list
+
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp CORE_PEER_ADDRESS=peer0.org2.example.com:7051 CORE_PEER_LOCALMSPID="Org2MSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt peer channel join -b mychannel.block
+
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp CORE_PEER_ADDRESS=peer0.org2.example.com:7051 CORE_PEER_LOCALMSPID="Org2MSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt peer channel list
+
+peer channel update -o orderer.example.com:7050 -c mychannel -f ./channel-artifacts/Org1MSPanchors.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+
+CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp CORE_PEER_ADDRESS=peer0.org2.example.com:7051 CORE_PEER_LOCALMSPID="Org2MSP" CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt peer channel update -o orderer.example.com:7050 -c mychannel -f ./channel-artifacts/Org2MSPanchors.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+
+===============
+Section 5.3.5
+===============
+
+cd ~/fabric-samples/first-network/org3-artifacts
+
+cryptogen generate --config=./org3-crypto.yaml
+
+cd crypto-config
+
+ls
+
+cd ~/fabric-samples/first-network/org3-artifacts
+
+export FABRIC_CFG_PATH=$PWD && configtxgen -printOrg Org3MSP >../channel-artifacts/org3.json
+
+cd ../ && cp -r crypto-config/ordererOrganizations org3-artifacts/crypto-config/
+
+**** NOTE ***** 
+docker exec -it cli bash
+***************
+
+export ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem && export CHANNEL_NAME=mychannel
+
+**** NOTE ***** 
+docker start cli
+
+docker exec -it cli bash
+***************
+
+echo $ORDERER_CA && echo $CHANNEL_NAME
+
+cd channel-artifacts
+
+peer channel fetch config config_block.pb -o orderer.example.com:7050 -c $CHANNEL_NAME --tls --cafile $ORDERER_CA
+
+ls
+
+export CHANNEL_NAME=mychannel
+
+cd ~/fabric-samples/first-network/channel-artifacts
+
+configtxlator proto_decode --input config_block.pb --type common.Block | jq .data.data[0].payload.data.config > config.json
+
+jq -s '.[0] * {"channel_group":{"groups":{"Application":{"groups":{"Org3MSP":.[1]}}}}}' config.json ./org3.json > modified_config.json
+
+configtxlator proto_encode --input config.json --type common.Config --output config.pb
+
+configtxlator proto_encode --input modified_config.json --type common.Config --output modified_config.pb
+
+configtxlator compute_update --channel_id $CHANNEL_NAME --original config.pb --updated modified_config.pb --output org3_update.pb
+
+configtxlator proto_decode --input org3_update.pb --type common.ConfigUpdate | jq . > org3_update.json
+
+echo '{"payload":{"header":{"channel_header":{"channel_id":"mychannel", "type":2}},"data":{"config_update":'$(cat org3_update.json)'}}}' | jq . > org3_update_in_envelope.json
+
+configtxlator proto_encode --input org3_update_in_envelope.json --type common.Envelope --output org3_update_in_envelope.pb
+
+peer channel signconfigtx -f org3_update_in_envelope.pb
+
+export CORE_PEER_LOCALMSPID="Org2MSP" 
+
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+
+export CORE_PEER_ADDRESS=peer0.org2.example.com:7051
+
+peer channel update -f org3_update_in_envelope.pb -c $CHANNEL_NAME -o orderer.example.com:7050 --tls --cafile $ORDERER_CA
+
+cd ~/fabric-samples/first-network
+
+docker-compose -f docker-compose-org3.yaml up -d
+
+docker exec -ti Org3cli bash
+
+export ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem && export CHANNEL_NAME=mychannel
+
+echo $ORDERER_CA && echo $CHANNEL_NAME
+
+peer channel fetch 0 mychannel.block -o orderer.example.com:7050 -c $CHANNEL_NAME --tls --cafile $ORDERER_CA
+
+ls
+
+peer channel join -b mychannel.block
+
+peer channel list
+
+===============
+Section 5.3.6
+===============
+docker rm -f $(docker ps -aq)
+
+docker volume rm $(docker volume ls -q)
+
+docker system prune -f

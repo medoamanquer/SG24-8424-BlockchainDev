@@ -1,0 +1,140 @@
+===================
+Section 6.3.1
+===================
+**** NOTE ****
+docker ps -a
+~/fabric-tools/teardownFabric.sh
+**************
+
+export FABRIC_VERSION=hlfv11
+
+~/fabric-tools/startFabric.sh
+
+docker ps --format 'table {{.Names}}\t{{.Status}}'
+
+** IF PROBLEMS **
+~/fabric-tools/teardownFabric.sh; ~/fabric-tools/startFabric.sh
+
+docker exec -ti cli bash -c 'ls /opt/gopath/src/Chain*'
+
+
+===================
+Section 6.3.2
+===================
+docker exec -i cli peer chaincode install -n vehicle-chaincode-go -v V1 -p ChainCode
+
+docker exec -i cli peer --help
+
+docker exec -i cli peer chaincode instantiate -o orderer.example.com:7050 -C composerchannel -n vehicle-chaincode-go -v V1 -c '{"Args":[]}' -P "OR('Org1MSP.member')"
+
+docker exec -i cli peer chaincode invoke -o orderer.example.com:7050 -C composerchannel -n vehicle-chaincode-go -c '{"Args":["recordVehicle", "2", "next car", "Blue", "1504054226", "Europe", "Robert"]}'
+
+docker exec -i cli peer chaincode query -C composerchannel -n vehicle-chaincode-go -c '{"Args":["queryVehicle","2"]}'
+
+
+===================
+Section 6.3.3
+===================
+
+cd  ~/Blockchain_Redbook_Application/Fabric/ChainCode/
+
+code vehicle-chaincode.go
+
+===================
+Section 6.3.4
+===================
+
+
+cd ~/Blockchain_Redbook_Application/Fabric/ChainCode/
+
+code vehicle-chaincode.go
+
+-----------
+
+2.	Change the body of the  "Init" chaincode function.
+Replace the following lines:
+
+func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
+	return shim.Success(nil)
+}
+
+With the new content:
+
+func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
+fmt.Println("Greetings from the Init function!")
+return shim.Success(nil)
+}
+----------
+
+
+===================
+Section 6.3.5
+===================
+
+docker exec -i cli peer chaincode install -n vehicle-chaincode-go -v V2 -p ChainCode 
+
+docker exec -i cli peer chaincode upgrade -o orderer.example.com:7050 -C composerchannel -n vehicle-chaincode-go -v V2 -c '{"Args":[]}' -P "OR('Org1MSP.member')"
+
+docker logs dev-peer0.org1.example.com-vehicle-chaincode-go-V2 
+
+===================
+Section 6.3.6
+===================
+
+docker exec -i cli peer chaincode install -l node -n vehicle-chaincode-js -v V1 -p /opt/gopath/src/ChaincodeNode
+
+docker exec -i cli peer chaincode instantiate -o orderer.example.com:7050 -C composerchannel -l node -n vehicle-chaincode-js -v V1 -c '{"Args":[]}' -P "OR('Org1MSP.member')" 
+
+docker exec -i cli peer chaincode invoke -o orderer.example.com:7050 -C composerchannel -n vehicle-chaincode-js -c '{"Args":["recordVehicle", "3", "next car", "Blue", "1504054226", "Robert JS"]}'
+
+docker exec -i cli peer chaincode query -C composerchannel -n vehicle-chaincode-js -c '{"Args":["queryVehicle","3"]}'
+
+===================
+Section 6.3.7
+===================
+
+cd  ~/Blockchain_Redbook_Application/Fabric/ChaincodeNode/
+
+code vehicle-chaincode.js 
+
+===================
+Section 6.3.8
+===================
+
+cd  ~/Blockchain_Redbook_Application/Fabric/ChaincodeNode/
+
+code vehicle-chaincode.js
+
+2.	Make changes to the body of the Init method. 
+Replace the following lines:
+
+    Init(stub) {
+        return shim.success(); 
+    } 
+
+With the new content:
+
+Init(stub) {
+console.info('Greetings from JavaScript Init!');
+return shim.success(); 
+}
+
+
+docker exec -i cli peer chaincode install -l node -n vehicle-chaincode-js -v V2 -p /opt/gopath/src/ChaincodeNode 
+
+docker exec -i cli peer chaincode upgrade -l node -o orderer.example.com:7050 -C composerchannel -n vehicle-chaincode-js -v V2 -c '{"Args":[]}' -P "OR('Org1MSP.member')"
+
+docker logs dev-peer0.org1.example.com-vehicle-chaincode-js-V2 
+
+===================
+Section 6.3.9
+===================
+cd ~/fabric-tools
+
+./stopFabric.sh
+
+./teardownFabric.sh
+
+docker ps -a
+
+docker rm $(docker ps -qa)

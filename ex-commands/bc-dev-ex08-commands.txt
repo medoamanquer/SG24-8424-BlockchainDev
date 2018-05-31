@@ -1,0 +1,84 @@
+================
+Section 8.3.1
+================
+
+**** NOTE ****
+docker ps -a
+
+~/fabric-tools/teardownFabric.sh; 
+***************
+export FABRIC_VERSION=hlfv11
+
+~/fabric-tools/startFabric.sh
+
+docker ps --format 'table {{.Names}}\t{{.Status}}'
+
+
+================
+Section 8.3.2
+================
+
+cp -r ~/Blockchain_Redbook_Application/scripts/ex08/ChainCodeEnc ~/Blockchain_Redbook_Application/Fabric/.
+
+docker exec -ti cli bash -c 'ls /opt/gopath/src/ChainCodeEnc'
+
+================
+Section 8.3.3
+================
+
+docker exec -i cli peer chaincode install -n vehicle-chaincode-enc-go -v V1 -p ChainCodeEnc
+
+docker exec -i cli peer chaincode instantiate -o orderer.example.com:7050 -C composerchannel -n vehicle-chaincode-enc-go -v V1 -c '{"Args":[]}' -P "OR('Org1MSP.member')"
+
+================
+Section 8.3.4
+================
+
+export MYKEY=`echo "this is my own super-secret key" | base64`
+
+echo "this is my own super-secret key" | wc -c
+
+================
+Section 8.3.5
+================
+
+docker exec -i cli peer chaincode invoke -o orderer.example.com:7050 -C composerchannel -n vehicle-chaincode-enc-go -c '{"Args":["recordVehicleEnc", "4", "secret car", "Blue", "1504054226", "Europe", "Rafael"]}' --transient "{\"ENCKEY\":\"${MYKEY}\"}"
+
+
+docker exec -i cli peer chaincode query -C composerchannel -n vehicle-chaincode-enc-go -c '{"Args":["queryVehicleEnc","4"]}' --transient "{\"DECKEY\":\"${MYKEY}\"}"
+
+FAKE_KEY=`openssl rand 32 -base64`
+
+docker exec -i cli peer chaincode query -C composerchannel -n vehicle-chaincode-enc-go -c '{"Args":["queryVehicleEnc","4"]}' --transient "{\"DECKEY\":\"$FAKE_KEY\"}"
+
+================
+Section 8.3.6
+================
+
+curl -s -X GET http://127.0.0.1:5984/composerchannel_vehicle-chaincode-enc-go/4 | jq
+
+docker exec -i cli peer chaincode invoke -o orderer.example.com:7050 -C composerchannel -n vehicle-chaincode-enc-go -c '{"Args":["recordVehicle", "5", "public car", "Blue", "1504054226", "Europe", "Leopold"]}' 
+
+curl -s -X GET http://127.0.0.1:5984/composerchannel_vehicle-chaincode-enc-go/5 | jq
+
+
+================
+Section 8.3.7
+================
+
+cd ~/Blockchain_Redbook_Application/Fabric/ChainCodeEnc/
+
+code vehicle-chaincode-enc.go 
+
+================
+Section 8.3.8
+================
+cd ~/fabric-tools
+
+./stopFabric.sh
+
+./teardownFabric.sh
+
+docker ps -a
+
+docker rm $(docker ps -qa)

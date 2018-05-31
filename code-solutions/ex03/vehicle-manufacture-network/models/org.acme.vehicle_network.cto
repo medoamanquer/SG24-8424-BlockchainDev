@@ -1,0 +1,82 @@
+/**
+ * New model file
+ */
+
+namespace org.acme.vehicle_network
+
+// BASE DEFINTIONS
+
+transaction InspectVehicle {
+	--> Vehicle vehicle
+}
+
+event InspectVehicleEvent {
+o Vehicle vehicle
+o Boolean isImportable
+}
+
+
+abstract participant Company identified by companyId {
+  o String companyId
+  o String name
+}
+
+participant Person identified by username {
+  o String username
+  o String email optional
+}
+
+
+// MANUFACTURE DEFINITIONS
+participant Manufacturer extends Company { 
+}
+
+// REGULATOR DEFINITIONS
+participant Regulator extends Company { 
+}
+
+asset Order identified by orderId {
+  o String orderId
+  o OrderStatus orderStatus default = "PLACED"
+  --> Vehicle vehicle
+  --> Person owner
+}
+
+asset Vehicle identified by vin {
+  o String vin
+  o String trim
+  o String interior
+  o String[] extras
+  --> Manufacturer make
+  o String modelType
+  o String colour
+  o Integer yearOfManufacture default = 2018 range = [2018, ]
+  o Boolean isImportable optional
+}
+
+transaction PlaceOrder {
+  o Order order
+}
+transaction UpdateOrderStatus {
+  o OrderStatus orderStatus
+  --> Order order
+}
+
+event UpdateOrderStatusEvent {
+  o OrderStatus orderStatus
+  o Order order
+}
+
+event PlaceOrderEvent {
+
+  o Order order
+}
+
+enum OrderStatus {
+  o PLACED
+  //o SCHEDULED_FOR_MANUFACTURE
+ // o VIN_ASSIGNED
+ // o OWNER_ASSIGNED
+  o DELIVERED
+}
+
