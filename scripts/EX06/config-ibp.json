@@ -1,0 +1,8 @@
+{
+    "channelName":"composerchannel",
+    "chaincodeName":"vehicle-chaincode",
+    "keyValueStore":"fabric-client-kvs_ibp",
+    "connectionProfileDir":"connection_profile/ibp",
+    "eventWaitTime":"180000"
+ }
+ 
