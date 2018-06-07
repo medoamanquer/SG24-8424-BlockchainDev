@@ -1,0 +1,131 @@
+===================
+Section 4.3.1
+===================
+docker ps -a 
+
+**** NOTE *****
+If containers
+
+cd ~/fabric-tools
+./teardownFabric.sh
+**********************
+
+docker ps -a 
+docker rm  -f $(docker ps –aq)
+
+
+composer card list
+
+
+composer card delete --card admin@vehicle-manufacture-network
+composer card delete --card PeerAdmin@hlfv1
+
+
+cd ~/Blockchain_Redbook_Application/vehicle-manufacture-network/
+
+cat package.json | grep version
+
+cd ~/Blockchain_Redbook_Application/scripts/ex04
+
+./startVehicleManufactureSampleEx04.sh
+
+===================
+Section  4.3.2
+===================
+
+cd ~/Blockchain_Redbook_Application/vehicle-manufacture-network/
+
+npm install
+
+node setupData.js
+
+**
+4.	Stop the running Node.js application by pressing Ctrl + C in the terminal window where setupData.js is running.
+
+===================
+Section 4.3.3.
+===================
+
+cd ~/Blockchain_Redbook_Application/vehicle-manufacture-network/
+
+code setupData.js 
+
+Nothing to do
+
+===================
+Section 4.3.4
+===================
+
+1.	Open setupData.js in Visual Studio Code
+
+ Add this function and the next one before the addDefaultCmd() function as shown in the figure
+
+
+
+static submitTransaction(args) {
+        let lr = new VehicleManufacturerNetwork('Vehicle-manufacture-network');
+        return lr.init().then(() => {
+            return lr._submitTransactionPlaceOrder();
+        }).then((results) => {
+            LOG.info('Submit transaction Done');
+        }).catch(function (error) {
+            /* potentially some code for generating an error specific
+            message here */
+            throw error;
+        });
+    }
+
+
+
+----------
+    _submitTransactionPlaceOrder() {
+        let factory = this.businessNetworkDefinition.getFactory();
+        var assetOrder = factory.newResource('org.acme.vehicle_network', 'Order', 'orderId:order104');
+        assetOrder.orderStatus = "PLACED";
+        let vehicleRelationship =
+            factory.newRelationship('org.acme.vehicle_network', 'Vehicle', 'vin:vehicle104');
+        assetOrder.vehicle = vehicleRelationship;
+        let ordererPerson =
+            factory.newRelationship('org.acme.vehicle_network', 'Person', 'username:person104');
+        assetOrder.owner = ordererPerson;
+        var placeOrderTransaction =
+            factory.newTransaction('org.acme.vehicle_network', 'PlaceOrder');
+        placeOrderTransaction.order = assetOrder;
+        return this.bizNetworkConnection.submitTransaction(placeOrderTransaction)
+            .catch(function (error) {
+                console.log(error);
+                LOG.error('Error while executing : VehicleManufacturerNetwork: _submitTransactionForOrder', error);
+                throw error;
+            })
+    }
+
+
+--------------------
+
+//VehicleManufacturerNetwork.addDefaultCmd();
+
+VehicleManufacturerNetwork.submitTransaction();
+
+
+cd ~/Blockchain_Redbook_Application/vehicle-manufacture-network/
+
+node setupData.js
+
+===================
+Section 4.3.5
+===================
+
+composer-rest-server -c admin@vehicle-manufacture-network -n never -w true
+
+http://localhost:3000/explorer/
+
+
+===================
+Section 4.3.6
+===================
+
+cd ~/Blockchain_Redbook_Application/scripts/ex04
+
+./stopVehicleManufactureSampleEx04.sh
+
+docker rm dev-peer0.org1.example.com-vehicle-manufacture-network-0.2.5

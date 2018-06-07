@@ -137,4 +137,31 @@ cd ~/fabric-tools
 
 docker ps -a
 
-docker rm $(docker ps -qa)
+docker rm -f $(docker ps -qa)
+
+===================
+Section 6.3.10
+===================
+#Downloading the connection profile
+ls ~/Downloads/creds_*.json
+
+#Configuring the client application for IBP
+
+cd ~/Blockchain_Redbook_Application/scripts/EX06
+ls -ad *
+npm install
+cat config-ibp.json
+
+mkdir -p connection_profile/ibp
+cp ~/Downloads/creds_*.json connection_profile/ibp/.
+ls connection_profile/ibp/.
+
+#Creating a new transaction with the sample application
+node 1-enrollAdminOrg1.js
+find fabric-client-kvs_ibp
+
+node 2-enrollUser.js
+
+node 3-createVehicle.js
+
+node 4-queryVehicle.js
