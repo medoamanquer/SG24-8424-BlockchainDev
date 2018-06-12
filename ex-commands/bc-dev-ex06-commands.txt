@@ -149,7 +149,7 @@ ls ~/Downloads/creds_*.json
 
 cd ~/Blockchain_Redbook_Application/scripts/EX06
 ls -ad *
-npm install
+
 cat config-ibp.json
 
 mkdir -p connection_profile/ibp
