@@ -39,6 +39,7 @@ cd ~/fabric-tools
 
 ./createPeerAdminCard.sh
 
+cd ~/Downloads 
 composer network install --card PeerAdmin@hlfv1 --archiveFile ./my-vehicle-manufacture-network.bna
 
 

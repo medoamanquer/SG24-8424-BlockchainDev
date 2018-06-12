@@ -11,7 +11,7 @@ cd ~/fabric-tools
 **********************
 
 docker ps -a 
-docker rm  -f $(docker ps –aq)
+docker rm  -f $(docker ps -aq)
 
 
 composer card list

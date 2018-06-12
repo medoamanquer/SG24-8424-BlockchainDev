@@ -6,6 +6,10 @@ Section 7.3.1
 docker ps --format 'table {{.Names}} \t {{.Status}}'
 
 **** NOTE ****
+cd ~/fabric-tools
+./stopFabric.sh
+./teardownFabric.sh
+
 cd ~/Blockchain_Redbook_Application/Fabric/Exercise7
 
 ./startFabric.sh
